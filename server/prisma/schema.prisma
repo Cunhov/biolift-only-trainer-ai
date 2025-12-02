@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  cpf       String?  @unique
+  password  String   // Will store a dummy hash or the CPF hash for consistency
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  workouts  Workout[]
+  workoutLogs WorkoutLog[]
+}
+
+model Workout {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  title         String
+  content       String   // Markdown content
+  originalInput String   // JSON string of original input
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  workoutLogs   WorkoutLog[]
+}
+
+model WorkoutLog {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  workoutId   String
+  workout     Workout  @relation(fields: [workoutId], references: [id])
+  
+  startedAt   DateTime
+  completedAt DateTime?
+  duration    Int?     // em segundos
+  
+  exercises   ExerciseLog[]
+  
+  createdAt   DateTime @default(now())
+}
+
+model ExerciseLog {
+  id            String      @id @default(uuid())
+  workoutLogId  String
+  workoutLog    WorkoutLog  @relation(fields: [workoutLogId], references: [id], onDelete: Cascade)
+  
+  exerciseName  String
+  sets          SetLog[]
+  
+  skipped       Boolean     @default(false)
+  notes         String?
+}
+
+model SetLog {
+  id            String       @id @default(uuid())
+  exerciseLogId String
+  exerciseLog   ExerciseLog  @relation(fields: [exerciseLogId], references: [id], onDelete: Cascade)
+  
+  setNumber     Int
+  reps          Int?
+  weight        Float?
+  rpe           Int?         // Rate of Perceived Exertion (1-10)
+  
+  createdAt     DateTime     @default(now())
+}

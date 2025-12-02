@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="antialiased">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#000000">
+    <title>Orquestrador de Treinos AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      body { 
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+        background-color: #000000; 
+        color: #f5f5f7; 
+        -webkit-font-smoothing: antialiased;
+      }
+      
+      /* Custom scrollbar - minimal */
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+      ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+      /* Animation utilities */
+      .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+      .slide-up { animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Apple-like Glassmorphism */
+      .glass-panel {
+        background: rgba(28, 28, 30, 0.6);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      /* Markdown Styles Override */
+      .markdown-body h1 { font-size: 1.8em; font-weight: 700; letter-spacing: -0.02em; margin-top: 1.2em; margin-bottom: 0.6em; color: #fff; }
+      .markdown-body h2 { font-size: 1.4em; font-weight: 600; letter-spacing: -0.01em; margin-top: 1.2em; margin-bottom: 0.5em; color: #fff; }
+      .markdown-body h3 { font-size: 1.1em; font-weight: 600; margin-top: 1em; margin-bottom: 0.4em; color: #e5e5e5; }
+      .markdown-body p { margin-bottom: 1em; line-height: 1.6; color: #d1d1d6; }
+      .markdown-body strong { color: #fff; font-weight: 600; }
+      .markdown-body table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 1.5em; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+      .markdown-body th { background-color: rgba(255,255,255,0.05); padding: 12px; text-align: left; font-weight: 600; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.1); }
+      .markdown-body td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #d1d1d6; }
+      .markdown-body tr:last-child td { border-bottom: none; }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

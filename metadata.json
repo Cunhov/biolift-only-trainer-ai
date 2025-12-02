@@ -1,0 +1,5 @@
+{
+  "name": "BIOLIFT TRAINER AI",
+  "description": "Um aplicativo que utiliza múltiplos agentes de IA (Gemini) em cadeia para criar planos de treino altamente personalizados e detalhados.",
+  "requestFramePermissions": []
+}
