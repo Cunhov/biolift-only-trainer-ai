@@ -20,8 +20,8 @@ export const login = async (req: Request, res: Response) => {
             return res.status(400).json({ error: 'Email and CPF are required' });
         }
 
-        // Call external webhook
-        const webhookUrl = 'https://aplicativos-n8n.m23la1.easypanel.host/webhook/login-app-ai-biolift-trainer';
+        // Call external webhook (configurable via environment variable)
+        const webhookUrl = process.env.LOGIN_WEBHOOK_URL || 'https://aplicativos-n8n.m23la1.easypanel.host/webhook/login-app-ai-biolift-trainer';
 
         try {
             const webhookResponse = await axios.post(webhookUrl, {

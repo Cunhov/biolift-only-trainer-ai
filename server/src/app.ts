@@ -8,7 +8,23 @@ dotenv.config();
 const app = express();
 const prisma = new PrismaClient();
 
-app.use(cors());
+// CORS configuration for embedding support
+app.use(cors({
+    origin: true, // Allow all origins (can be restricted to specific domains if needed)
+    credentials: true, // Allow cookies and authentication headers
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// Security headers for iframe embedding
+app.use((req, res, next) => {
+    // Allow embedding in iframes from any origin (remove X-Frame-Options restriction)
+    // If you want to restrict to specific domains, use: res.setHeader('Content-Security-Policy', "frame-ancestors 'self' https://yourdomain.com");
+    res.removeHeader('X-Frame-Options');
+    res.setHeader('Content-Security-Policy', "frame-ancestors *");
+    next();
+});
+
 app.use(express.json({ limit: '50mb' })); // Increased limit for image uploads
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
