@@ -9,7 +9,9 @@ import WorkoutCarousel from './components/WorkoutCarousel';
 import ExportPDFButton from './components/ExportPDFButton';
 import AdminPanel from './components/AdminPanel';
 import { UserInput, AgentLog, SavedWorkout, AppView } from './types';
-import { auth, workouts } from './services/api'; // Refactored api
+import { auth, workouts, exercises } from './services/api';
+import { poe } from './services/poe';
+import { getWorkoutSystemPrompt, getRefineSystemPrompt } from './utils/prompts';
 
 import { parseWorkoutMarkdown, WorkoutDay } from './utils/workoutParser';
 
@@ -104,69 +106,51 @@ const App: React.FC = () => {
     setGeneratedContent('');
 
     try {
-      // The SSE endpoint still points to the Express server for now
-      // This will need to be replaced by a Firebase Function if we want to go fully serverless
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-      const response = await fetch(`${API_URL}/ai/generate`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      setLogs([{ agent: 'BioLift AI', message: 'Analisando seu perfil...', status: 'processing' }]);
+
+      // 1. Fetch exercises to build prompt
+      const exerciseData = await exercises.getAll();
+      const exerciseNames = exerciseData.map(e => (e as any).nome);
+
+      setLogs(prev => [...prev, { agent: 'BioLift AI', message: 'Estruturando plano de treino...', status: 'processing' }]);
+
+      const systemPrompt = getWorkoutSystemPrompt(exerciseNames);
+      const userMessage = `
+        Objetivo: ${data.objetivo}
+        Nível: ${data.nivel}
+        Frequência: ${data.dias.length}x por semana (${data.dias.join(', ')})
+        Divisão: ${data.split}
+        Equipamentos: ${data.equipamentos.join(', ')}
+        Duração: ${data.duracao_por_sessao} min
+        Lesões: ${data.lesoes || 'Nenhuma'}
+      `;
+
+      await poe.chat({
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userMessage }
+        ],
+        onContent: (content) => {
+          setGeneratedContent(prev => prev + content);
         },
-        body: JSON.stringify(data),
-      });
+        onError: (err) => {
+          setErrorMsg(err);
+        },
+        onDone: async (fullContent) => {
+          setLogs(prev => [...prev, { agent: 'BioLift AI', message: 'Treino gerado com sucesso!', status: 'success' }]);
 
-      if (!response.ok || !response.body) {
-        throw new Error('Failed to connect to generation service');
-      }
+          // Save to Firestore
+          const newWorkout = await workouts.create({
+            title: `Treino ${data.objetivo || 'Personalizado'} - ${new Date().toLocaleDateString()}`,
+            content: fullContent,
+            originalInput: data
+          });
 
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n\n');
-        buffer = lines.pop() || '';
-
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            const dataStr = line.replace('data: ', '');
-            try {
-              const event = JSON.parse(dataStr);
-
-              if (event.type === 'log') {
-                setLogs(prev => [...prev, {
-                  agent: event.data.agent,
-                  message: event.data.message,
-                  status: event.data.status
-                }]);
-              } else if (event.type === 'result') {
-                setGeneratedContent(event.data);
-                // Save workout to Firestore
-                const newWorkout = await workouts.create({
-                  title: `Treino ${data.objetivo || 'Personalizado'} - ${new Date().toLocaleDateString()}`,
-                  content: event.data,
-                  originalInput: data
-                });
-
-                setSavedWorkouts(prev => [newWorkout.data as any, ...prev]);
-                setSelectedWorkout(newWorkout.data as any);
-                setView('view_workout');
-              } else if (event.type === 'content') {
-                setGeneratedContent(prev => prev + event.content);
-              } else if (event.type === 'error') {
-                setErrorMsg(event.message);
-              }
-            } catch (e) {
-              console.error('Error parsing SSE', e);
-            }
-          }
+          setSavedWorkouts(prev => [newWorkout.data as any, ...prev]);
+          setSelectedWorkout(newWorkout.data as any);
+          setView('view_workout');
         }
-      }
+      });
     } catch (error: any) {
       setErrorMsg(error.message || 'Erro desconhecido');
     }
@@ -196,49 +180,30 @@ const App: React.FC = () => {
     setGeneratedContent('');
 
     try {
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-      const response = await fetch(`${API_URL}/ai/refine`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+      const systemPrompt = getRefineSystemPrompt(selectedWorkout.content);
+
+      await poe.chat({
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: refineRequest }
+        ],
+        onContent: (content) => {
+          setGeneratedContent(prev => prev + content);
         },
-        body: JSON.stringify({
-          workoutId: selectedWorkout.id,
-          instructions: refineRequest
-        }),
-      });
-
-      if (!response.ok || !response.body) throw new Error('Failed to refine');
-
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n\n');
-        buffer = lines.pop() || '';
-
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            const event = JSON.parse(line.replace('data: ', ''));
-            if (event.type === 'content') setGeneratedContent(prev => prev + event.content);
-            else if (event.type === 'done') {
-              const updated = { ...selectedWorkout, content: generatedContent + event.content };
-              await workouts.update(selectedWorkout.id, { content: updated.content });
-              setSelectedWorkout(updated);
-              setSavedWorkouts(prev => prev.map(w => w.id === updated.id ? updated : w));
-              setView('view_workout');
-              setShowRefineInput(false);
-              setRefineRequest('');
-            }
-          }
+        onError: (err) => {
+          setErrorMsg(err);
+          setView('view_workout');
+        },
+        onDone: async (fullContent) => {
+          const updated = { ...selectedWorkout, content: fullContent };
+          await workouts.update(selectedWorkout.id, { content: fullContent });
+          setSelectedWorkout(updated);
+          setSavedWorkouts(prev => prev.map(w => w.id === updated.id ? updated : w));
+          setView('view_workout');
+          setShowRefineInput(false);
+          setRefineRequest('');
         }
-      }
+      });
     } catch (e: any) {
       setErrorMsg(e.message);
       setView('view_workout');

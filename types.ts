@@ -13,7 +13,7 @@ export interface UserInput {
 
 export interface AgentLog {
   agent: string;
-  status: 'pending' | 'running' | 'completed' | 'error';
+  status: 'pending' | 'processing' | 'completed' | 'error' | 'success';
   message: string;
 }
 
