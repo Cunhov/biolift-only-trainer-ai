@@ -7,15 +7,16 @@ import Dashboard from './components/Dashboard';
 import SupportView from './components/SupportView';
 import WorkoutCarousel from './components/WorkoutCarousel';
 import ExportPDFButton from './components/ExportPDFButton';
+import AdminPanel from './components/AdminPanel';
 import { UserInput, AgentLog, SavedWorkout, AppView } from './types';
-import { auth, workouts, ai } from './services/api';
+import { auth, workouts } from './services/api'; // Refactored api
 
 import { parseWorkoutMarkdown, WorkoutDay } from './utils/workoutParser';
-import { API_URL } from './config';
 
 const App: React.FC = () => {
   // --- STATE ---
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [view, setView] = useState<AppView>('login');
 
   // Data
@@ -40,21 +41,22 @@ const App: React.FC = () => {
 
   // --- EFFECTS ---
 
-  // Auto-login on mount if token exists
+  // Auto-login on mount if user exists
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
+    const user = auth.me();
+    if (user) {
       setIsAuthenticated(true);
-      setView('dashboard');
+      setIsAdmin(!!user.isAdmin);
+      setView(user.isAdmin ? 'admin' : 'dashboard');
     }
   }, []);
 
   // Load from Backend on mount/auth
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && !isAdmin) {
       loadWorkouts();
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, isAdmin]);
 
   // Parse workout when selected
   useEffect(() => {
@@ -73,24 +75,18 @@ const App: React.FC = () => {
     }
   };
 
-  // Sync to Backend (replaced by direct API calls in handlers)
-  // const persistWorkouts = ... (removed)
-
   // --- HANDLERS ---
 
-  const handleLoginSuccess = () => {
+  const handleLoginSuccess = (isAdminLogin: boolean) => {
     setIsAuthenticated(true);
-    setView('dashboard');
+    setIsAdmin(isAdminLogin);
+    setView(isAdminLogin ? 'admin' : 'dashboard');
   };
 
   const handleLogout = () => {
-    // Clear all localStorage
-    localStorage.removeItem('token');
-    localStorage.removeItem('biolift_remember_email');
-    localStorage.removeItem('biolift_remember_cpf');
-
-    // Reset all state
+    auth.logout();
     setIsAuthenticated(false);
+    setIsAdmin(false);
     setView('login');
     setSavedWorkouts([]);
     setSelectedWorkout(null);
@@ -108,12 +104,14 @@ const App: React.FC = () => {
     setGeneratedContent('');
 
     try {
-      // Use fetch with readable stream for better control and headers.
+      // The SSE endpoint still points to the Express server for now
+      // This will need to be replaced by a Firebase Function if we want to go fully serverless
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
       const response = await fetch(`${API_URL}/ai/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')} `,
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify(data),
       });
@@ -148,15 +146,15 @@ const App: React.FC = () => {
                 }]);
               } else if (event.type === 'result') {
                 setGeneratedContent(event.data);
-                // Save workout
+                // Save workout to Firestore
                 const newWorkout = await workouts.create({
-                  title: `Treino ${tempInput?.objetivo || 'Personalizado'} - ${new Date().toLocaleDateString()}`,
+                  title: `Treino ${data.objetivo || 'Personalizado'} - ${new Date().toLocaleDateString()}`,
                   content: event.data,
-                  originalInput: JSON.stringify(tempInput)
+                  originalInput: data
                 });
 
-                setSavedWorkouts(prev => [newWorkout.data, ...prev]);
-                setSelectedWorkout(newWorkout.data);
+                setSavedWorkouts(prev => [newWorkout.data as any, ...prev]);
+                setSelectedWorkout(newWorkout.data as any);
                 setView('view_workout');
               } else if (event.type === 'content') {
                 setGeneratedContent(prev => prev + event.content);
@@ -172,18 +170,6 @@ const App: React.FC = () => {
     } catch (error: any) {
       setErrorMsg(error.message || 'Erro desconhecido');
     }
-  };
-
-  const addLog = (log: AgentLog) => {
-    setLogs(prev => {
-      const existingIdx = prev.findIndex(l => l.agent === log.agent && l.status !== 'completed' && l.status !== 'error');
-      if (existingIdx !== -1) {
-        const newLogs = [...prev];
-        newLogs[existingIdx] = log;
-        return newLogs;
-      }
-      return [...prev, log];
-    });
   };
 
   const handleDeleteWorkout = async () => {
@@ -207,14 +193,15 @@ const App: React.FC = () => {
     setView('processing');
     setLogs([]);
     setErrorMsg(null);
-    setGeneratedContent(''); // We might want to keep old content or show diff, but for now clear.
+    setGeneratedContent('');
 
     try {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
       const response = await fetch(`${API_URL}/ai/refine`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')} `
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify({
           workoutId: selectedWorkout.id,
@@ -241,8 +228,8 @@ const App: React.FC = () => {
             const event = JSON.parse(line.replace('data: ', ''));
             if (event.type === 'content') setGeneratedContent(prev => prev + event.content);
             else if (event.type === 'done') {
-              // Update local workout
               const updated = { ...selectedWorkout, content: generatedContent + event.content };
+              await workouts.update(selectedWorkout.id, { content: updated.content });
               setSelectedWorkout(updated);
               setSavedWorkouts(prev => prev.map(w => w.id === updated.id ? updated : w));
               setView('view_workout');
@@ -254,7 +241,7 @@ const App: React.FC = () => {
       }
     } catch (e: any) {
       setErrorMsg(e.message);
-      setView('view_workout'); // Go back on error
+      setView('view_workout');
     }
   };
 
@@ -278,9 +265,27 @@ const App: React.FC = () => {
           </div>
         )}
 
+        {/* ADMIN VIEW */}
+        {view === 'admin' && (
+          <AdminPanel
+            onBack={handleLogout}
+            onToggleUserMode={() => setView('dashboard')}
+          />
+        )}
+
         {/* DASHBOARD VIEW */}
-        {view === 'dashboard' && (
+        {view === 'dashboard' && (isAuthenticated) && (
           <div className="flex-1 flex flex-col pt-8 slide-up">
+            <div className="flex justify-end mb-4 gap-2">
+              {isAdmin && (
+                <button
+                  onClick={() => setView('admin')}
+                  className="px-4 py-1.5 bg-blue-600/20 text-blue-400 text-xs font-bold rounded-lg border border-blue-500/20 hover:bg-blue-600/30 transition-all"
+                >
+                  Painel Admin
+                </button>
+              )}
+            </div>
             <Dashboard
               workouts={savedWorkouts}
               onCreateNew={() => setView('wizard')}
@@ -329,7 +334,6 @@ const App: React.FC = () => {
         {/* VIEW WORKOUT */}
         {view === 'view_workout' && selectedWorkout && (
           <div className="flex-1 flex flex-col pt-4 slide-up">
-            {/* Header / Nav */}
             <div className="flex items-center justify-between mb-6">
               <button
                 onClick={() => setView('dashboard')}
@@ -361,14 +365,13 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            {/* Refine Input Area */}
             {showRefineInput && (
               <div className="mb-8 glass-panel p-6 rounded-3xl border border-blue-500/30 animate-fade-in">
                 <h3 className="text-lg font-bold text-white mb-2">O que você gostaria de mudar?</h3>
                 <textarea
                   value={refineRequest}
                   onChange={(e) => setRefineRequest(e.target.value)}
-                  placeholder="Ex: Não tenho barra fixa, troque por elásticos. O treino de segunda ficou muito longo..."
+                  placeholder="Ex: Não tenho barra fixa, troque por elásticos..."
                   className="w-full bg-slate-900/50 border border-slate-700 rounded-xl p-4 text-white placeholder-slate-500 focus:ring-2 focus:ring-blue-500 outline-none resize-none h-24 mb-4"
                 />
                 <div className="flex justify-end gap-3">
@@ -389,14 +392,11 @@ const App: React.FC = () => {
               </div>
             )}
 
-            {/* View Mode Toggle & Actions */}
             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-
-              {/* Toggle Switch */}
               <div className="bg-slate-800 p-1 rounded-xl flex items-center">
                 <button
                   onClick={() => setWorkoutViewMode('cards')}
-                  className={`px - 4 py - 2 rounded - lg text - sm font - medium transition - all ${workoutViewMode === 'cards'
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${workoutViewMode === 'cards'
                     ? 'bg-blue-600 text-white shadow-lg'
                     : 'text-slate-400 hover:text-white'
                     } `}
@@ -405,7 +405,7 @@ const App: React.FC = () => {
                 </button>
                 <button
                   onClick={() => setWorkoutViewMode('text')}
-                  className={`px - 4 py - 2 rounded - lg text - sm font - medium transition - all ${workoutViewMode === 'text'
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${workoutViewMode === 'text'
                     ? 'bg-blue-600 text-white shadow-lg'
                     : 'text-slate-400 hover:text-white'
                     } `}
@@ -422,13 +422,11 @@ const App: React.FC = () => {
               )}
             </div>
 
-            {/* Content Area */}
             {workoutViewMode === 'cards' ? (
               <WorkoutCarousel days={parsedDays} />
             ) : (
               <MarkdownView content={selectedWorkout.content} />
             )}
-
           </div>
         )}
 
@@ -437,7 +435,6 @@ const App: React.FC = () => {
           <div className="flex-1 flex flex-col justify-center slide-up">
             <SupportView
               onBack={() => {
-                // If we have a selected workout, go back to it, else dashboard
                 if (selectedWorkout) setView('view_workout');
                 else setView('dashboard');
               }}
@@ -445,7 +442,6 @@ const App: React.FC = () => {
             />
           </div>
         )}
-
       </main>
     </div>
   );

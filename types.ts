@@ -27,4 +27,4 @@ export interface SavedWorkout {
 
 export type ProcessingState = 'input' | 'processing' | 'result' | 'error';
 
-export type AppView = 'login' | 'dashboard' | 'wizard' | 'processing' | 'view_workout' | 'support';
+export type AppView = 'login' | 'dashboard' | 'wizard' | 'processing' | 'view_workout' | 'support' | 'admin';
