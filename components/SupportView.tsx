@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { SavedWorkout } from '../types';
+import { API_URL } from '../config';
 
 interface SupportViewProps {
   onBack: () => void;
@@ -82,7 +83,7 @@ const SupportView: React.FC<SupportViewProps> = ({ onBack, workoutContext }) => 
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3001/api/ai/support', {
+      const response = await fetch(`${API_URL}/ai/support`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -204,8 +205,8 @@ const SupportView: React.FC<SupportViewProps> = ({ onBack, workoutContext }) => 
             >
               <div
                 className={`max-w-[85%] md:max-w-[70%] rounded-2xl text-sm leading-relaxed shadow-lg transition-all hover:scale-[1.02] ${msg.role === 'user'
-                    ? 'bg-gradient-to-br from-blue-600 to-blue-500 text-white rounded-tr-md p-4'
-                    : 'bg-gradient-to-br from-slate-800/80 to-slate-800/60 text-slate-100 rounded-tl-md border border-slate-700/50 p-4 backdrop-blur-sm'
+                  ? 'bg-gradient-to-br from-blue-600 to-blue-500 text-white rounded-tr-md p-4'
+                  : 'bg-gradient-to-br from-slate-800/80 to-slate-800/60 text-slate-100 rounded-tl-md border border-slate-700/50 p-4 backdrop-blur-sm'
                   }`}
               >
                 {msg.image && (

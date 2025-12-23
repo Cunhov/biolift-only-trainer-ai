@@ -11,6 +11,7 @@ import { UserInput, AgentLog, SavedWorkout, AppView } from './types';
 import { auth, workouts, ai } from './services/api';
 
 import { parseWorkoutMarkdown, WorkoutDay } from './utils/workoutParser';
+import { API_URL } from './config';
 
 const App: React.FC = () => {
   // --- STATE ---
@@ -108,7 +109,7 @@ const App: React.FC = () => {
 
     try {
       // Use fetch with readable stream for better control and headers.
-      const response = await fetch('http://localhost:3001/api/ai/generate', {
+      const response = await fetch(`${API_URL}/ai/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -209,7 +210,7 @@ const App: React.FC = () => {
     setGeneratedContent(''); // We might want to keep old content or show diff, but for now clear.
 
     try {
-      const response = await fetch('http://localhost:3001/api/ai/refine', {
+      const response = await fetch(`${API_URL}/ai/refine`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

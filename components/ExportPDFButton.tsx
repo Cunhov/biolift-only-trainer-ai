@@ -1,4 +1,5 @@
 import React from 'react';
+import { API_URL } from '../config';
 
 interface ExportPDFButtonProps {
     workoutId: string;
@@ -13,7 +14,7 @@ const ExportPDFButton: React.FC<ExportPDFButtonProps> = ({ workoutId, workoutTit
         try {
             const token = localStorage.getItem('token');
             const response = await fetch(
-                `http://localhost:3001/api/workouts/${workoutId}/export-pdf`,
+                `${API_URL}/workouts/${workoutId}/export-pdf`,
                 {
                     headers: {
                         'Authorization': `Bearer ${token}`,

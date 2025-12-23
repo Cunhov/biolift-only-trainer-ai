@@ -3,6 +3,7 @@ import RestTimer from './RestTimer';
 import SetLogger from './SetLogger';
 import CompletionSummary from './CompletionSummary';
 import axios from 'axios';
+import { API_URL } from '../../config';
 
 interface Exercise {
     name: string;
@@ -44,7 +45,7 @@ const ExecutionMode: React.FC<ExecutionModeProps> = ({ workoutId, exercises, onE
         try {
             const token = localStorage.getItem('token');
             const response = await axios.post(
-                `http://localhost:3001/api/workout-logs/workouts/${workoutId}/start`,
+                `${API_URL}/workout-logs/workouts/${workoutId}/start`,
                 {},
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -60,7 +61,7 @@ const ExecutionMode: React.FC<ExecutionModeProps> = ({ workoutId, exercises, onE
         try {
             const token = localStorage.getItem('token');
             await axios.post(
-                `http://localhost:3001/api/workout-logs/logs/${logId}/exercises/${currentExercise.name}/sets`,
+                `${API_URL}/workout-logs/logs/${logId}/exercises/${currentExercise.name}/sets`,
                 {
                     setNumber: currentSet,
                     ...data,
@@ -96,7 +97,7 @@ const ExecutionMode: React.FC<ExecutionModeProps> = ({ workoutId, exercises, onE
         try {
             const token = localStorage.getItem('token');
             await axios.post(
-                `http://localhost:3001/api/workout-logs/logs/${logId}/exercises/${currentExercise.name}/skip`,
+                `${API_URL}/workout-logs/logs/${logId}/exercises/${currentExercise.name}/skip`,
                 { notes: 'Pulado pelo usuário' },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -119,7 +120,7 @@ const ExecutionMode: React.FC<ExecutionModeProps> = ({ workoutId, exercises, onE
         try {
             const token = localStorage.getItem('token');
             const response = await axios.post(
-                `http://localhost:3001/api/workout-logs/logs/${logId}/complete`,
+                `${API_URL}/workout-logs/logs/${logId}/complete`,
                 {},
                 { headers: { Authorization: `Bearer ${token}` } }
             );
