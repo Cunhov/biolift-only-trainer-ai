@@ -5,7 +5,6 @@ import MarkdownView from './components/MarkdownView';
 import LoginForm from './components/LoginForm';
 import Dashboard from './components/Dashboard';
 import SupportView from './components/SupportView';
-import WorkoutCarousel from './components/WorkoutCarousel';
 import ExportPDFButton from './components/ExportPDFButton';
 import AdminPanel from './components/AdminPanel';
 import { UserInput, AgentLog, SavedWorkout, AppView } from './types';
@@ -13,7 +12,7 @@ import { auth, workouts, exercises } from './services/api';
 import { poe } from './services/poe';
 import { getWorkoutSystemPrompt, getRefineSystemPrompt } from './utils/prompts';
 
-import { parseWorkoutMarkdown, WorkoutDay } from './utils/workoutParser';
+
 
 const App: React.FC = () => {
   // --- STATE ---
@@ -26,8 +25,7 @@ const App: React.FC = () => {
   const [selectedWorkout, setSelectedWorkout] = useState<SavedWorkout | null>(null);
 
   // View Mode for Workout (Text vs Cards)
-  const [workoutViewMode, setWorkoutViewMode] = useState<'text' | 'cards'>('cards');
-  const [parsedDays, setParsedDays] = useState<WorkoutDay[]>([]);
+
 
   // Processing
   const [logs, setLogs] = useState<AgentLog[]>([]);
@@ -60,13 +58,7 @@ const App: React.FC = () => {
     }
   }, [isAuthenticated, isAdmin]);
 
-  // Parse workout when selected
-  useEffect(() => {
-    if (selectedWorkout) {
-      const days = parseWorkoutMarkdown(selectedWorkout.content);
-      setParsedDays(days);
-    }
-  }, [selectedWorkout]);
+
 
   const loadWorkouts = async () => {
     try {
@@ -357,28 +349,8 @@ const App: React.FC = () => {
               </div>
             )}
 
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-              <div className="bg-slate-800 p-1 rounded-xl flex items-center">
-                <button
-                  onClick={() => setWorkoutViewMode('cards')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${workoutViewMode === 'cards'
-                    ? 'bg-blue-600 text-white shadow-lg'
-                    : 'text-slate-400 hover:text-white'
-                    } `}
-                >
-                  📱 Cards
-                </button>
-                <button
-                  onClick={() => setWorkoutViewMode('text')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${workoutViewMode === 'text'
-                    ? 'bg-blue-600 text-white shadow-lg'
-                    : 'text-slate-400 hover:text-white'
-                    } `}
-                >
-                  📄 Texto
-                </button>
-              </div>
-
+            {/* Removed toggle buttons and carousel */}
+            <div className="flex justify-end mb-6">
               {selectedWorkout && (
                 <ExportPDFButton
                   workoutId={selectedWorkout.id}
@@ -387,11 +359,7 @@ const App: React.FC = () => {
               )}
             </div>
 
-            {workoutViewMode === 'cards' ? (
-              <WorkoutCarousel days={parsedDays} />
-            ) : (
-              <MarkdownView content={selectedWorkout.content} />
-            )}
+            <MarkdownView content={selectedWorkout.content} />
           </div>
         )}
 
