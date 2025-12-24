@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  /* Hide non-printable elements */
+  button, 
+  input, 
+  nav, 
+  footer,
+  .no-print,
+  [role="button"] {
+    display: none !important;
+  }
+
+  /* Specific hide for Dashboard/Wizard elements if needed */
+  .dashboard-header,
+  .wizard-form {
+    display: none !important;
+  }
+
+  /* Ensure markdown content is visible and full width */
+  .markdown-content {
+    display: block !important;
+    width: 100% !important;
+    overflow: visible !important;
+  }
+
+  /* Improve Video Link display for print */
+  a[href*="youtube.com"] {
+    text-decoration: underline;
+    color: blue;
+  }
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { SavedWorkout } from '../types';
-import { API_URL } from '../config';
+import { poe } from '../services/poe';
+import { getSupportSystemPrompt } from '../utils/prompts';
 
 interface SupportViewProps {
   onBack: () => void;
@@ -12,7 +13,6 @@ interface Message {
   role: 'user' | 'coach';
   text: string;
   timestamp: Date;
-  image?: string; // base64 image data
 }
 
 const SupportView: React.FC<SupportViewProps> = ({ onBack, workoutContext }) => {
@@ -22,17 +22,15 @@ const SupportView: React.FC<SupportViewProps> = ({ onBack, workoutContext }) => 
       role: 'coach',
       text: workoutContext
         ? `Opa! Sou a Alice, sua personal do BioLift! 💪\n\nVi que você tá olhando o treino "${workoutContext.title}". Bora tirar suas dúvidas sobre ele?`
-        : `Opa! Sou a Alice, sua personal do BioLift! 🌟\n\nEm que posso te ajudar hoje? Pode me perguntar sobre treinos, funcionalidades do app, ou qualquer dúvida que tiver!\n\n(Dica: Você também pode me enviar fotos para eu analisar sua execução! 📸)`,
+        : `Opa! Sou a Alice, sua personal do BioLift! 🌟\n\nEm que posso te ajudar hoje? Pode me perguntar sobre treinos, funcionalidades do app, ou qualquer dúvida que tiver!`,
       timestamp: new Date()
     }
   ]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Auto scroll
   useEffect(() => {
@@ -44,113 +42,74 @@ const SupportView: React.FC<SupportViewProps> = ({ onBack, workoutContext }) => 
     inputRef.current?.focus();
   }, []);
 
-  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      // Check file size (max 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        alert('Imagem muito grande! Por favor, escolha uma imagem menor que 5MB.');
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setSelectedImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const handleSend = async (e?: React.FormEvent) => {
     e?.preventDefault();
 
     const trimmedInput = inputText.trim();
-    if ((!trimmedInput && !selectedImage) || isTyping) return;
+    if (!trimmedInput || isTyping) return;
 
     const userMsg: Message = {
       id: Date.now().toString(),
       role: 'user',
-      text: trimmedInput || '📷 [Imagem enviada]',
-      timestamp: new Date(),
-      image: selectedImage || undefined
+      text: trimmedInput,
+      timestamp: new Date()
     };
 
     setMessages(prev => [...prev, userMsg]);
     setInputText('');
-    const imageToSend = selectedImage;
-    setSelectedImage(null);
     setIsTyping(true);
 
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${API_URL}/ai/support`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+      // Build conversation history for context
+      const history = messages.map(m => ({
+        role: m.role === 'coach' ? 'assistant' : 'user',
+        content: m.text
+      })) as any[];
+
+      // Add new user message
+      history.push({ role: 'user', content: trimmedInput });
+
+      const systemPrompt = getSupportSystemPrompt(workoutContext?.content);
+
+      let responseText = '';
+
+      await poe.chat({
+        messages: [
+          { role: 'system', content: systemPrompt },
+          ...history
+        ],
+        onContent: (content) => {
+          // Accumulate content if needed, but we typically wait for done or update live
+          // For simplicity in this UI, we can just show typing indicator until done, 
+          // or we could stream. Let's try to stream into a temp message if possible,
+          // but keeping it simple: wait for full response or stream effectively.
+          // The previous poe implementation accumulates full content in `onDone`.
         },
-        body: JSON.stringify({
-          message: trimmedInput || 'Analise esta imagem',
-          workoutContext: workoutContext?.content,
-          image: imageToSend
-        }),
-      });
-
-      if (!response.ok || !response.body) {
-        throw new Error('Failed to get response');
-      }
-
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-      let fullResponse = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n\n');
-        buffer = lines.pop() || '';
-
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            try {
-              const event = JSON.parse(line.replace('data: ', ''));
-              if (event.type === 'content') {
-                fullResponse += event.content;
-              }
-            } catch (e) {
-              console.error('Error parsing SSE', e);
-            }
-          }
+        onDone: (fullContent) => {
+          setMessages(prev => [...prev, {
+            id: (Date.now() + 1).toString(),
+            role: 'coach',
+            text: fullContent,
+            timestamp: new Date()
+          }]);
+          setIsTyping(false);
+          inputRef.current?.focus();
+        },
+        onError: (err) => {
+          console.error(err);
+          setMessages(prev => [...prev, {
+            id: Date.now().toString(),
+            role: 'coach',
+            text: "Ops, tive um problema de conexão. Tente novamente!",
+            timestamp: new Date()
+          }]);
+          setIsTyping(false);
         }
-      }
-
-      if (fullResponse) {
-        const coachMsg: Message = {
-          id: (Date.now() + 1).toString(),
-          role: 'coach',
-          text: fullResponse,
-          timestamp: new Date()
-        };
-        setMessages(prev => [...prev, coachMsg]);
-      } else {
-        throw new Error('Empty response');
-      }
+      });
 
     } catch (err) {
       console.error('Support chat error:', err);
-      setMessages(prev => [...prev, {
-        id: Date.now().toString(),
-        role: 'coach',
-        text: "Opa, deu algum problema aqui... 😅 Pode tentar de novo?",
-        timestamp: new Date()
-      }]);
-    } finally {
       setIsTyping(false);
-      inputRef.current?.focus();
-      if (fileInputRef.current) fileInputRef.current.value = '';
     }
   };
 
@@ -191,9 +150,6 @@ const SupportView: React.FC<SupportViewProps> = ({ onBack, workoutContext }) => 
               <span className="text-sm text-slate-400">Sua Personal do BioLift</span>
             </div>
           </div>
-          <div className="text-xs text-slate-500">
-            {messages.length - 1} mensagem{messages.length - 1 !== 1 ? 's' : ''}
-          </div>
         </div>
 
         {/* Messages Area */}
@@ -209,13 +165,6 @@ const SupportView: React.FC<SupportViewProps> = ({ onBack, workoutContext }) => 
                   : 'bg-gradient-to-br from-slate-800/80 to-slate-800/60 text-slate-100 rounded-tl-md border border-slate-700/50 p-4 backdrop-blur-sm'
                   }`}
               >
-                {msg.image && (
-                  <img
-                    src={msg.image}
-                    alt="Imagem enviada"
-                    className="rounded-lg mb-2 max-w-full h-auto"
-                  />
-                )}
                 <div className="whitespace-pre-wrap break-words">{msg.text}</div>
                 <div className={`text-xs mt-2 ${msg.role === 'user' ? 'text-blue-200' : 'text-slate-500'}`}>
                   {msg.timestamp.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
@@ -236,24 +185,6 @@ const SupportView: React.FC<SupportViewProps> = ({ onBack, workoutContext }) => 
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Image Preview */}
-        {selectedImage && (
-          <div className="px-5 py-3 border-t border-slate-700/50 bg-slate-800/30">
-            <div className="flex items-center gap-3">
-              <img src={selectedImage} alt="Preview" className="w-16 h-16 rounded-lg object-cover" />
-              <div className="flex-1 text-sm text-slate-400">Imagem pronta para enviar</div>
-              <button
-                onClick={() => setSelectedImage(null)}
-                className="text-red-400 hover:text-red-300 transition-colors"
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        )}
-
         {/* Input Area */}
         <div className="p-5 bg-gradient-to-t from-slate-800/50 to-transparent border-t border-slate-700/50">
           <form onSubmit={handleSend} className="relative">
@@ -268,30 +199,10 @@ const SupportView: React.FC<SupportViewProps> = ({ onBack, workoutContext }) => 
               className="w-full bg-slate-900/60 border border-slate-700/50 rounded-2xl pl-5 pr-24 py-4 text-white focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all placeholder:text-slate-500 disabled:opacity-50 disabled:cursor-not-allowed backdrop-blur-sm"
             />
 
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleImageSelect}
-              className="hidden"
-            />
-
             <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
               <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                disabled={isTyping || !!selectedImage}
-                className="p-2.5 bg-slate-700 hover:bg-slate-600 text-white rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed active:scale-95"
-                title="Enviar imagem"
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              </button>
-
-              <button
                 type="submit"
-                disabled={(!inputText.trim() && !selectedImage) || isTyping}
+                disabled={!inputText.trim() || isTyping}
                 className="p-2.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 shadow-lg disabled:hover:from-blue-600 disabled:hover:to-blue-500"
                 title="Enviar mensagem (Enter)"
               >
@@ -301,9 +212,6 @@ const SupportView: React.FC<SupportViewProps> = ({ onBack, workoutContext }) => 
               </button>
             </div>
           </form>
-          <div className="mt-2 text-xs text-slate-500 text-center">
-            {selectedImage ? '📸 Imagem selecionada • ' : ''}Enter = enviar • 📎 = anexar imagem
-          </div>
         </div>
 
       </div>
