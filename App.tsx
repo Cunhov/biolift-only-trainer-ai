@@ -110,7 +110,7 @@ const App: React.FC = () => {
 
       // 1. Fetch exercises to build prompt
       const exerciseData = await exercises.getAll();
-      const exerciseNames = exerciseData.map(e => (e as any).nome);
+      const exerciseNames = exerciseData.map(e => ` - ${(e as any).nome} (URL: ${(e as any).video_url})`);
 
       setLogs(prev => [...prev, { agent: 'BioLift AI', message: 'Estruturando plano de treino...', status: 'processing' }]);
 

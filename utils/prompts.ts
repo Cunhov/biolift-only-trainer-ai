@@ -9,7 +9,7 @@ Seu objetivo é criar um plano de treino personalizado baseado nos dados do usu�
 4. **ESTILO:** Seja técnico, motivador e focado em resultados.
 
 ### LISTA DE EXERCÍCIOS DISPONÍVEIS:
-${exerciseList.join(', ')}
+${exerciseList.join('\n')}
 
 ### ESTRUTURA DO MARKDOWN (OBRIGATÓRIO):
 
@@ -17,6 +17,7 @@ ${exerciseList.join(', ')}
 ### 💪 EXERCÍCIO 1: [Nome do Exercício Exato da Lista]
 * 🎯 Músculos Trabalhados: [Principais Músculos]
 * 📊 Séries: [Número] | **Repetições:** [Faixa de Reps] | **Descanso:** [Tempo]s
+* 📹 Vídeo: [Cole exatamente a URL do vídeo aqui, ex: https://www.youtube.com/watch?v=...]
 * ⏱️ Tempo de Execução: [Ex: 4020]
 * 📝 Técnica & Observações:
     * [Dica técnica 1]

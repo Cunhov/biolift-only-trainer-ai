@@ -25,3 +25,9 @@ dist-ssr
 
 # Environment files with sensitive data
 .env.production
+.env
+
+# Firebase Admin Keys
+biolift-trainer-ai-12345-firebase-adminsdk-fbsvc-794d9fea3e.json
+*-firebase-adminsdk-*.json
+

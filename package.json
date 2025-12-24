@@ -12,8 +12,10 @@
   "dependencies": {
     "@google/genai": "^1.30.0",
     "axios": "^1.13.2",
+    "csv-parse": "^6.1.0",
     "dotenv": "^17.2.3",
     "firebase": "^12.7.0",
+    "firebase-admin": "^13.6.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
@@ -23,5 +25,18 @@
     "concurrently": "^9.2.1",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
-  }
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cunhov/biolift-only-trainer-ai.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cunhov/biolift-only-trainer-ai/issues"
+  },
+  "homepage": "https://github.com/Cunhov/biolift-only-trainer-ai#readme",
+  "description": ""
 }
