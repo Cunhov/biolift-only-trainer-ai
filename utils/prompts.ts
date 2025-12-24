@@ -48,7 +48,7 @@ ${currentWorkout}
 ### REGRAS:
 1. Retorne o treino completo atualizado no mesmo formato Markdown anterior.
 2. Se o usuário pedir para trocar um exercício, use a lista de exercícios permitidos (se disponível na conversa).
-3. **CRÍTICO:** Você DEVE preservar o campo `* 📹 Vídeo: ` com a URL exata para cada exercício. Não remova ou altere as URLs existentes.
+3. **CRÍTICO:** Você DEVE preservar o campo \`* 📹 Vídeo: \` com a URL exata para cada exercício. Não remova ou altere as URLs existentes.
 `;
 
 export const getSupportSystemPrompt = (workoutContext?: string) => `
