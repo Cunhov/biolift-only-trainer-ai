@@ -9,9 +9,9 @@
   }
 
   /* Hide non-printable elements */
-  button, 
-  input, 
-  nav, 
+  button,
+  input,
+  nav,
   footer,
   .no-print,
   [role="button"] {
@@ -34,6 +34,30 @@
   /* Improve Video Link display for print */
   a[href*="youtube.com"] {
     text-decoration: underline;
-    color: blue;
+    color: blue !important;
+    display: block !important;
+  }
+
+  /* Force light theme for print */
+  .bg-\[\#1c1c1e\],
+  .glass-panel {
+    background: white !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: black !important;
+  }
+
+  .text-slate-300,
+  .text-slate-400,
+  .text-white {
+    color: black !important;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  strong {
+    color: black !important;
   }
 }

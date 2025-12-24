@@ -102,8 +102,18 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({ content }) => {
             </ul>
             {videoUrl && (
               <div className="mt-4">
-                <h4 className="text-sm font-semibold text-slate-300 mb-2">🎥 Vídeo Demonstrativo:</h4>
-                <YouTubeEmbed url={videoUrl} title={title} />
+                <h4 className="text-sm font-semibold text-slate-300 mb-2 print:text-black">🎥 Vídeo Demonstrativo:</h4>
+                <div className="print:hidden">
+                  <YouTubeEmbed url={videoUrl} title={title} />
+                </div>
+                <a
+                  href={videoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hidden print:block text-blue-600 underline text-sm mt-1"
+                >
+                  {videoUrl}
+                </a>
               </div>
             )}
           </div>
