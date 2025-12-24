@@ -117,21 +117,60 @@ export const workouts = {
     },
 
     getOne: async (id: string) => {
+        const currentUser = auth.me();
+        if (!currentUser) throw new Error('Not authenticated');
+
         const docRef = doc(db, 'workouts', id);
         const docSnap = await getDoc(docRef);
+
         if (docSnap.exists()) {
-            return { data: { id: docSnap.id, ...docSnap.data() } };
+            const data = docSnap.data();
+            // Client-side RLS simulation
+            if (data.userId !== currentUser.id && !currentUser.isAdmin) {
+                throw new Error('Unauthorized access');
+            }
+            return { data: { id: docSnap.id, ...data } };
         } else {
             throw new Error('Workout not found');
         }
     },
 
-    delete: (id: string) => deleteDoc(doc(db, 'workouts', id)),
+    delete: async (id: string) => {
+        const currentUser = auth.me();
+        if (!currentUser) throw new Error('Not authenticated');
 
-    update: (id: string, data: any) => updateDoc(doc(db, 'workouts', id), {
-        ...data,
-        updatedAt: Timestamp.now()
-    }),
+        const docRef = doc(db, 'workouts', id);
+        const docSnap = await getDoc(docRef);
+
+        if (!docSnap.exists()) throw new Error('Workout not found');
+
+        const data = docSnap.data();
+        if (data.userId !== currentUser.id && !currentUser.isAdmin) {
+            throw new Error('Unauthorized delete');
+        }
+
+        return deleteDoc(docRef);
+    },
+
+    update: async (id: string, data: any) => {
+        const currentUser = auth.me();
+        if (!currentUser) throw new Error('Not authenticated');
+
+        const docRef = doc(db, 'workouts', id);
+        const docSnap = await getDoc(docRef);
+
+        if (!docSnap.exists()) throw new Error('Workout not found');
+
+        const existingData = docSnap.data();
+        if (existingData.userId !== currentUser.id && !currentUser.isAdmin) {
+            throw new Error('Unauthorized update');
+        }
+
+        return updateDoc(docRef, {
+            ...data,
+            updatedAt: Timestamp.now()
+        });
+    },
 };
 
 export const exercises = {
