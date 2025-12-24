@@ -7,6 +7,7 @@ Seu objetivo é criar um plano de treino personalizado baseado nos dados do usu�
 2. **EXERCÍCIOS:** Use EXCLUSIVAMENTE os exercícios da lista abaixo. Não invente exercícios.
 3. **FORMATO:** Retorne APENAS o Markdown seguindo rigorosamente a estrutura esperada pelo parser.
 4. **ESTILO:** Seja técnico, motivador e focado em resultados.
+5. **SEM PENSAMENTO:** NÃO inclua blocos de pensamento ou raciocínio (<think> ou >). Apenas o output final.
 
 ### LISTA DE EXERCÍCIOS DISPONÍVEIS:
 ${exerciseList.join('\n')}

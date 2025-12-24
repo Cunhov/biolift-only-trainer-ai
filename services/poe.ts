@@ -47,6 +47,7 @@ export const poe = {
             const reader = response.body.getReader();
             const decoder = new TextDecoder();
             let fullContent = '';
+            let isThinking = false;
 
             while (true) {
                 const { done, value } = await reader.read();
@@ -63,9 +64,27 @@ export const poe = {
                         try {
                             const data = JSON.parse(line.replace('data: ', ''));
                             const content = data.choices[0]?.delta?.content || '';
+
                             if (content) {
                                 fullContent += content;
-                                options.onContent?.(content);
+
+                                // HEURISTIC 1: DeepSeek/Reasoning models use <think> tags
+                                if (content.includes('<think>')) isThinking = true;
+                                if (content.includes('</think>')) {
+                                    isThinking = false;
+                                    continue; // Skip the closing tag chunk if it's just that
+                                }
+
+                                // HEURISTIC 2: Skip explicit "Thinking..." lines and blockquotes at the start
+                                if (fullContent.length < 500) {
+                                    if (content.includes('*Thinking...*')) continue;
+                                    if (content.trim().startsWith('>')) continue;
+                                    if (fullContent.trim().startsWith('>')) continue;
+                                }
+
+                                if (!isThinking) {
+                                    options.onContent?.(content);
+                                }
                             }
                         } catch (e) {
                             console.error('Error parsing Poe stream chunk', e);
@@ -73,6 +92,13 @@ export const poe = {
                     }
                 }
             }
+
+            // Final Cleanup ensuring no leaked thinking artifacts remain
+            fullContent = fullContent
+                .replace(/<think>[\s\S]*?<\/think>/g, '')
+                .replace(/\*Thinking\.\.\.\*[\s\S]*?(?=\n\n|\n>|\n#)/g, '')
+                .replace(/^\s*>\s.*/gm, '')
+                .trim();
 
             options.onDone?.(fullContent);
         } catch (error: any) {
