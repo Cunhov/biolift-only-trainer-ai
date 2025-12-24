@@ -23,6 +23,9 @@ export interface SavedWorkout {
   date: string;
   content: string; // Markdown content
   originalInput: UserInput;
+  userId?: string;
+  createdAt?: any;
+  updatedAt?: any;
 }
 
 export type ProcessingState = 'input' | 'processing' | 'result' | 'error';

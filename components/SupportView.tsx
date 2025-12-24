@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { SavedWorkout } from '../types';
 import { poe } from '../services/poe';
+import { auth, support } from '../services/api';
 import { getSupportSystemPrompt } from '../utils/prompts';
 
 interface SupportViewProps {
@@ -28,25 +29,49 @@ const SupportView: React.FC<SupportViewProps> = ({ onBack, workoutContext }) => 
   ]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [allWorkouts, setAllWorkouts] = useState<SavedWorkout[]>([]);
+  const pendingUserMessages = useRef<string[]>([]);
+  const bufferTimeout = useRef<NodeJS.Timeout | null>(null);
+  const messagesRef = useRef<Message[]>(messages);
+
+  // Update ref when messages change
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const sessionId = useRef(`session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`);
+  const currentUser = auth.me();
 
   // Auto scroll
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
-  // Focus input on mount
+  // Focus input on mount & Load context
   useEffect(() => {
     inputRef.current?.focus();
+    const loadContext = async () => {
+      try {
+        const user = auth.me();
+        if (user) {
+          const { workouts } = await import('../services/api');
+          const response = await workouts.getAll();
+          setAllWorkouts(response.data || []);
+        }
+      } catch (e) {
+        console.error("Failed to load Alice context", e);
+      }
+    };
+    loadContext();
   }, []);
 
   const handleSend = async (e?: React.FormEvent) => {
     e?.preventDefault();
 
     const trimmedInput = inputText.trim();
-    if (!trimmedInput || isTyping) return;
+    if (!trimmedInput) return;
 
     const userMsg: Message = {
       id: Date.now().toString(),
@@ -55,58 +80,104 @@ const SupportView: React.FC<SupportViewProps> = ({ onBack, workoutContext }) => 
       timestamp: new Date()
     };
 
-    setMessages(prev => [...prev, userMsg]);
+    setMessages((prev) => [...prev, userMsg]);
     setInputText('');
+
+    // Add to buffer
+    pendingUserMessages.current.push(trimmedInput);
+
+    // Skip log for now, log bundled messages later or log individually
+    if (currentUser) {
+      support.logMessage({
+        userId: currentUser.id,
+        role: 'user',
+        message: trimmedInput,
+        sessionId: sessionId.current,
+        workoutContextId: workoutContext?.id
+      });
+    }
+
+    // Reset buffer timeout (5 seconds)
+    if (bufferTimeout.current) clearTimeout(bufferTimeout.current);
+
     setIsTyping(true);
+    bufferTimeout.current = setTimeout(() => {
+      processBuffer();
+    }, 5000);
+  };
+
+  const processBuffer = async () => {
+    if (pendingUserMessages.current.length === 0) return;
+
+    const bundledInput = pendingUserMessages.current.join('\n');
+    pendingUserMessages.current = []; // Clear buffer
 
     try {
-      // Build conversation history for context
-      const history = messages.map(m => ({
+      // Build conversation history for context (excluding the new bundled messages already in UI)
+      // Use the latest messages from ref
+      const history = messagesRef.current.map((m) => ({
         role: m.role === 'coach' ? 'assistant' : 'user',
         content: m.text
       })) as any[];
 
-      // Add new user message
-      history.push({ role: 'user', content: trimmedInput });
-
-      const systemPrompt = getSupportSystemPrompt(workoutContext?.content);
-
-      let responseText = '';
+      const systemPrompt = getSupportSystemPrompt(allWorkouts, workoutContext);
 
       await poe.chat({
-        messages: [
-          { role: 'system', content: systemPrompt },
-          ...history
-        ],
-        onContent: (content) => {
-          // Accumulate content if needed, but we typically wait for done or update live
-          // For simplicity in this UI, we can just show typing indicator until done, 
-          // or we could stream. Let's try to stream into a temp message if possible,
-          // but keeping it simple: wait for full response or stream effectively.
-          // The previous poe implementation accumulates full content in `onDone`.
-        },
-        onDone: (fullContent) => {
-          setMessages(prev => [...prev, {
-            id: (Date.now() + 1).toString(),
-            role: 'coach',
-            text: fullContent,
-            timestamp: new Date()
-          }]);
+        messages: [{ role: 'system', content: systemPrompt }, ...history, { role: 'user', content: bundledInput }],
+        onContent: () => { },
+        onDone: async (fullContent) => {
+          // Split by double newline or triple newline for "human-like" bubbles
+          const bubbles = fullContent.split(/\n\n+/).filter(b => b.trim());
+
+          for (let i = 0; i < bubbles.length; i++) {
+            const bubble = bubbles[i];
+
+            // Artificial delay between bubbles to feel human (longer for longer text)
+            if (i > 0) {
+              const delay = Math.min(2000, bubble.length * 15);
+              await new Promise(r => setTimeout(r, delay));
+            }
+
+            const coachMsgId = `coach_${Date.now()}_${i}`;
+            setMessages((prev) => [
+              ...prev,
+              {
+                id: coachMsgId,
+                role: 'coach',
+                text: bubble,
+                timestamp: new Date()
+              }
+            ]);
+
+            // Log Coach Message
+            if (currentUser) {
+              support.logMessage({
+                userId: currentUser.id,
+                role: 'coach',
+                message: bubble,
+                sessionId: sessionId.current,
+                workoutContextId: workoutContext?.id
+              });
+            }
+          }
+
           setIsTyping(false);
           inputRef.current?.focus();
         },
         onError: (err) => {
           console.error(err);
-          setMessages(prev => [...prev, {
-            id: Date.now().toString(),
-            role: 'coach',
-            text: "Ops, tive um problema de conexão. Tente novamente!",
-            timestamp: new Date()
-          }]);
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: `error_${Date.now()}`,
+              role: 'coach',
+              text: 'Ops, tive um problema de conexão. Tente novamente!',
+              timestamp: new Date()
+            }
+          ]);
           setIsTyping(false);
         }
       });
-
     } catch (err) {
       console.error('Support chat error:', err);
       setIsTyping(false);

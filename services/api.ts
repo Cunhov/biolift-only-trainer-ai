@@ -173,6 +173,26 @@ export const workouts = {
     },
 };
 
+export const support = {
+    logMessage: async (data: {
+        userId: string,
+        role: 'user' | 'coach',
+        message: string,
+        sessionId: string,
+        workoutContextId?: string
+    }) => {
+        try {
+            await addDoc(collection(db, 'support_chats'), {
+                ...data,
+                timestamp: Timestamp.now()
+            });
+        } catch (error) {
+            console.error("Failed to log support message:", error);
+            // Non-blocking error - chat should continue even if logging fails
+        }
+    }
+};
+
 export const exercises = {
     getAll: async () => {
         const q = query(collection(db, 'exercises'), orderBy('nome', 'asc'));
