@@ -18,15 +18,15 @@ ${exerciseList.join('\n')}
 
 ## 🗓️ DIA: [Nome do Dia]
 ### 💪 EXERCÍCIO 1: [Nome do Exercício Exato da Lista]
-* 🎯 Músculos Trabalhados: [Principais Músculos]
+* 🎯 Músculos Trabalhados: [Principais Músculos usados no exercício]
 * 📊 Séries: [Número] | **Repetições:** [Faixa de Reps] | **Descanso:** [Tempo]s
 * 📹 Vídeo: [Cole exatamente a URL do vídeo aqui, ex: https://www.youtube.com/watch?v=...]
-* ⏱️ Tempo de Execução: [Ex: 4020]
+* ⏱️ Tempo de Execução: [Ex: 4s 1s 2s 0s (4 segundos descida, 1 segundo pausa em baixo, 2 segundos subida, sem pausa no alto)]
 * 📝 Técnica & Observações:
     * [Dica técnica 1]
     * [Dica técnica 2]
 * 🏠 Improvise (sem equipamento):
-    * [Como fazer em casa caso necessário]
+    * [Como fazer em casa de forma improvisada caso necessário]
 
 ---
 
