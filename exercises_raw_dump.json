@@ -1,0 +1,842 @@
+[
+  {
+    "original_data": {
+      "id": "0pHNEu91BfkT15By26A8",
+      "nome": "FLEXÃO PLANTAR",
+      "video_url": "https://www.youtube.com/watch?v=h530xEH1Uj8",
+      "padrao_movimento": "Isolamento",
+      "musculos_secundarios": "",
+      "musculo_principal": "Panturrilha",
+      "dicas": "Amplitude máxima, Pausa no topo e base",
+      "nivel_minimo": "Iniciante",
+      "tipo": "Isolado",
+      "equipamentos": "Nenhum",
+      "createdAt": {
+        "_seconds": 1766547880,
+        "_nanoseconds": 636000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "1tfOtDlTzIvvPhQSuS1I",
+      "equipamentos": "Barra Olímpica",
+      "dicas": "Palmas para frente, Foco dorsal baixa",
+      "tipo": "Composto",
+      "nome": "remada supinada aberta",
+      "nivel_minimo": "Intermediário",
+      "musculo_principal": "Costas",
+      "musculos_secundarios": "Biceps",
+      "padrao_movimento": "Puxar Horizontal",
+      "video_url": "https://www.youtube.com/watch?v=-3nakVjVrCo",
+      "createdAt": {
+        "_seconds": 1766547895,
+        "_nanoseconds": 557000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "1z6xPWXsXJJ8uWg6TfVG",
+      "nome": "flexão diamante",
+      "tipo": "Composto",
+      "dicas": "Mãos em formato de diamante, Foco triceps",
+      "video_url": "https://www.youtube.com/watch?v=Ov9HwlVDk_I",
+      "padrao_movimento": "Empurrar Horizontal",
+      "musculos_secundarios": "Peito",
+      "musculo_principal": "Triceps",
+      "equipamentos": "Nenhum",
+      "nivel_minimo": "Intermediário",
+      "createdAt": {
+        "_seconds": 1766547891,
+        "_nanoseconds": 547000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "3Hiu5Nq6kgVOJ0FEncJi",
+      "dicas": "Quadril alto o tempo todo, Puxar com calcanhar",
+      "padrao_movimento": "Isolamento",
+      "equipamentos": "Sliders",
+      "musculo_principal": "Posterior",
+      "nivel_minimo": "Intermediário",
+      "musculos_secundarios": "Glúteos, Abdomen",
+      "tipo": "Isolado",
+      "video_url": "https://www.youtube.com/watch?v=zeFohbq1sik",
+      "nome": "flexora com slider",
+      "createdAt": {
+        "_seconds": 1766547893,
+        "_nanoseconds": 730000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "4cgdOALdBy4a6WtW6l1Y",
+      "nivel_minimo": "Iniciante",
+      "nome": "FLEXÃO",
+      "video_url": "https://www.youtube.com/watch?v=ENdtHMIWcoo",
+      "musculos_secundarios": "Triceps, Ombros",
+      "musculo_principal": "Peito",
+      "tipo": "Composto",
+      "padrao_movimento": "Empurrar Horizontal",
+      "equipamentos": "Nenhum",
+      "dicas": "Corpo reto, Cotovelos 45 graus, Amplitude total",
+      "createdAt": {
+        "_seconds": 1766547877,
+        "_nanoseconds": 513000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "8fevrytUxt1q9ZuhcUzw",
+      "equipamentos": "Barra Fixa",
+      "padrao_movimento": "Puxar Vertical",
+      "musculos_secundarios": "Biceps, Antebraço",
+      "musculo_principal": "Costas",
+      "nivel_minimo": "Intermediário",
+      "nome": "BARRA FIXA",
+      "dicas": "Queixo acima da barra, Controle na descida, Ativar dorsais",
+      "video_url": "https://www.youtube.com/watch?v=N6RzI2Smo8k",
+      "tipo": "Composto",
+      "createdAt": {
+        "_seconds": 1766547878,
+        "_nanoseconds": 195000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "8yZfH92KlI2dkZHzzOo3",
+      "nivel_minimo": "Iniciante",
+      "padrao_movimento": "Isolamento",
+      "musculos_secundarios": "Glúteos, Posterior",
+      "video_url": "https://www.youtube.com/watch?v=rX-9ESFdON4",
+      "tipo": "Isolado",
+      "musculo_principal": "Lombar",
+      "nome": "HIPEREXTENSÃO",
+      "equipamentos": "Banco Romano",
+      "dicas": "Não hiperextender demais, Movimento controlado",
+      "createdAt": {
+        "_seconds": 1766547881,
+        "_nanoseconds": 317000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "AFEbZz1HKrmemXzh4DZg",
+      "musculo_principal": "Costas",
+      "tipo": "Composto",
+      "dicas": "Barra colada na canela, Peito aberto, Lombar neutra",
+      "nivel_minimo": "Intermediário",
+      "equipamentos": "Barra Olímpica",
+      "musculos_secundarios": "Posterior, Glúteos, Lombar",
+      "padrao_movimento": "Levantamento",
+      "nome": "LEVANTAMENTO TERRA",
+      "video_url": "https://www.youtube.com/watch?v=5tkOd-rgYr8",
+      "createdAt": {
+        "_seconds": 1766547882,
+        "_nanoseconds": 839000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "Am5mrEnK0GLu1EbLwGwn",
+      "padrao_movimento": "Isolamento",
+      "musculos_secundarios": "Quadríceps",
+      "equipamentos": "Máquina Abdutora",
+      "nome": "cadeira abdutora",
+      "dicas": "Segurar 1s na abertura, Não bater pesos",
+      "nivel_minimo": "Iniciante",
+      "musculo_principal": "Glúteos",
+      "tipo": "Isolado",
+      "video_url": "https://www.youtube.com/watch?v=R3XKX0TM2og",
+      "createdAt": {
+        "_seconds": 1766547886,
+        "_nanoseconds": 672000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "GMWP4KrkN6MGT3CKFina",
+      "padrao_movimento": "Agachamento",
+      "musculo_principal": "Quadríceps",
+      "video_url": "https://www.youtube.com/watch?v=uaCFPHi3Z0E",
+      "dicas": "Equilíbrio em uma perna, Calcanhar no chão",
+      "nivel_minimo": "Avançado",
+      "equipamentos": "Nenhum",
+      "nome": "pistol squat",
+      "musculos_secundarios": "Abdomen",
+      "tipo": "Composto",
+      "createdAt": {
+        "_seconds": 1766547892,
+        "_nanoseconds": 462000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "IVXrp3PK8lG9lQeH1I1j",
+      "nivel_minimo": "Iniciante",
+      "padrao_movimento": "Agachamento",
+      "tipo": "Composto",
+      "dicas": "Alinhamento do joelho, Sem impulso",
+      "video_url": "https://www.youtube.com/watch?v=MnPoGM6C-Yo",
+      "musculos_secundarios": "Glúteos",
+      "musculo_principal": "Quadríceps",
+      "equipamentos": "Caixa",
+      "nome": "step up",
+      "createdAt": {
+        "_seconds": 1766547897,
+        "_nanoseconds": 408000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "JHI5cSL8QjP82oDcE1RM",
+      "nome": "hiperextensão",
+      "video_url": "https://www.youtube.com/watch?v=ob6u_SHpVc4",
+      "nivel_minimo": "Iniciante",
+      "dicas": "Movimento pelo quadril, Não pela coluna",
+      "padrao_movimento": "Isolamento",
+      "musculo_principal": "Lombar",
+      "tipo": "Isolado",
+      "equipamentos": "Banco Romano",
+      "musculos_secundarios": "Glúteos",
+      "createdAt": {
+        "_seconds": 1766547893,
+        "_nanoseconds": 481000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "K7sU1yI7spI6E58wqB12",
+      "dicas": "Pegada larga, Cotovelos a 90 graus",
+      "nivel_minimo": "Intermediário",
+      "nome": "remada pronada aberta",
+      "padrao_movimento": "Puxar Horizontal",
+      "musculos_secundarios": "Ombros, Trapézio",
+      "equipamentos": "Barra Olímpica",
+      "musculo_principal": "Costas",
+      "tipo": "Composto",
+      "video_url": "https://www.youtube.com/watch?v=_GF48UMt1TY",
+      "createdAt": {
+        "_seconds": 1766547894,
+        "_nanoseconds": 641000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "MBqMYLeDwNL1TCcGE8My",
+      "nivel_minimo": "Iniciante",
+      "padrao_movimento": "Empurrar Horizontal",
+      "musculo_principal": "Peito",
+      "nome": "flexão aberta",
+      "equipamentos": "Nenhum",
+      "musculos_secundarios": "Ombros",
+      "dicas": "Mãos largas, Foco no peitoral",
+      "tipo": "Composto",
+      "video_url": "https://www.youtube.com/watch?v=iR7iUCaGLDc",
+      "createdAt": {
+        "_seconds": 1766547889,
+        "_nanoseconds": 513000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "NnWR5Fk2I0lpIZzLbqpz",
+      "nivel_minimo": "Intermediário",
+      "nome": "DIPS",
+      "dicas": "Tronco levemente à frente, Descer até 90 graus, Cotovelos fechados",
+      "padrao_movimento": "Empurrar Vertical",
+      "video_url": "https://www.youtube.com/watch?v=ZMiUBEx1Koo",
+      "musculo_principal": "Triceps",
+      "equipamentos": "Paralelas",
+      "musculos_secundarios": "Peito, Ombros",
+      "tipo": "Composto",
+      "createdAt": {
+        "_seconds": 1766547879,
+        "_nanoseconds": 137000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "O2DWQM2LDpV8Ohoo8ggu",
+      "musculos_secundarios": "Glúteos",
+      "tipo": "Isolado",
+      "equipamentos": "Nenhum",
+      "padrao_movimento": "Isolamento",
+      "nivel_minimo": "Avançado",
+      "nome": "flexão nórdica",
+      "video_url": "https://www.youtube.com/watch?v=0IGF3ChRhlM",
+      "dicas": "Pés presos, Excêntrica lenta",
+      "musculo_principal": "Posterior",
+      "createdAt": {
+        "_seconds": 1766547895,
+        "_nanoseconds": 793000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "OZ07BC2ClewFKOVRPmjs",
+      "musculos_secundarios": "Biceps",
+      "nome": "remada pronada fechada",
+      "equipamentos": "Barra Olímpica",
+      "nivel_minimo": "Intermediário",
+      "musculo_principal": "Costas",
+      "dicas": "Puxar no umbigo, Cotovelos fechados",
+      "video_url": "https://www.youtube.com/watch?v=NXmotBdAIQ8",
+      "padrao_movimento": "Puxar Horizontal",
+      "tipo": "Composto",
+      "createdAt": {
+        "_seconds": 1766547898,
+        "_nanoseconds": 330000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "RHe7t6s6UxSDtVp5RjV4",
+      "padrao_movimento": "Agachamento",
+      "video_url": "https://www.youtube.com/watch?v=QCn9Jja-eiY",
+      "musculos_secundarios": "Glúteos",
+      "dicas": "Controle excêntrico, Foco na perna frontal",
+      "tipo": "Composto",
+      "equipamentos": "Halteres",
+      "musculo_principal": "Quadríceps",
+      "nivel_minimo": "Intermediário",
+      "nome": "afundo búlgaro",
+      "createdAt": {
+        "_seconds": 1766547886,
+        "_nanoseconds": 210000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "RIFZCXJ6fywPfIylXeoF",
+      "musculo_principal": "Triceps",
+      "padrao_movimento": "Empurrar Vertical",
+      "equipamentos": "Banco",
+      "dicas": "Costas rente ao banco, Cotovelos fechados",
+      "nivel_minimo": "Iniciante",
+      "video_url": "https://www.youtube.com/watch?v=G5fwyLwdRAs",
+      "tipo": "Composto",
+      "musculos_secundarios": "Ombros",
+      "nome": "mergulho no banco",
+      "createdAt": {
+        "_seconds": 1766547896,
+        "_nanoseconds": 484000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "SE7PSyNN4FMLBhvDitBQ",
+      "nivel_minimo": "Iniciante",
+      "tipo": "Isolado",
+      "equipamentos": "Máquina Flexora",
+      "musculos_secundarios": "Panturrilha",
+      "musculo_principal": "Posterior",
+      "dicas": "Ajustar bem o banco, Movimento completo",
+      "padrao_movimento": "Isolamento",
+      "nome": "cadeira flexora pendurado",
+      "video_url": "https://www.youtube.com/watch?v=j2StLepoqjc",
+      "createdAt": {
+        "_seconds": 1766547884,
+        "_nanoseconds": 687000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "TgjsybKit8XpCPlWXMco",
+      "nivel_minimo": "Iniciante",
+      "nome": "ELEVAÇÃO DE QUADRIL",
+      "tipo": "Isolado",
+      "equipamentos": "Nenhum",
+      "dicas": "Apertar glúteos no topo, Pés firmes, Lombar neutra",
+      "padrao_movimento": "Isolamento",
+      "musculo_principal": "Glúteos",
+      "video_url": "https://www.youtube.com/watch?v=pXRSV41ohWA",
+      "musculos_secundarios": "Posterior",
+      "createdAt": {
+        "_seconds": 1766547880,
+        "_nanoseconds": 336000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "USwCIpe6vR1IA7V6E7k1",
+      "padrao_movimento": "Isolamento",
+      "musculos_secundarios": "",
+      "nome": "flexão plantar",
+      "tipo": "Isolado",
+      "musculo_principal": "Panturrilha",
+      "dicas": "Alongar bem a panturrilha na base",
+      "nivel_minimo": "Iniciante",
+      "equipamentos": "Degrau",
+      "video_url": "https://www.youtube.com/watch?v=9LzFuHTdRCc",
+      "createdAt": {
+        "_seconds": 1766547897,
+        "_nanoseconds": 681000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "VXo1EOas2ud4EBvvkJvf",
+      "musculo_principal": "Posterior",
+      "musculos_secundarios": "Panturrilha",
+      "video_url": "https://www.youtube.com/watch?v=Nuu2sQoGG5Q",
+      "equipamentos": "Máquina Flexora",
+      "nome": "mesa flexora pendurado",
+      "dicas": "Quadril colado no banco, Foco no posterior",
+      "tipo": "Isolado",
+      "padrao_movimento": "Isolamento",
+      "nivel_minimo": "Iniciante",
+      "createdAt": {
+        "_seconds": 1766547898,
+        "_nanoseconds": 603000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "WBy6MbxLCsgFifSSvL8y",
+      "video_url": "https://www.youtube.com/watch?v=dPbu0Hi0aHo",
+      "dicas": "Pés largura do quadril, Contrair forte topo",
+      "tipo": "Isolado",
+      "padrao_movimento": "Isolamento",
+      "nivel_minimo": "Iniciante",
+      "musculos_secundarios": "Posterior",
+      "equipamentos": "Nenhum",
+      "musculo_principal": "Glúteos",
+      "nome": "elevação de quadril",
+      "createdAt": {
+        "_seconds": 1766547895,
+        "_nanoseconds": 316000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "WHhgJJwRl26gem3LzfKl",
+      "musculo_principal": "Lombar",
+      "dicas": "Elevar peito e pernas, Segurar no topo",
+      "equipamentos": "Nenhum",
+      "padrao_movimento": "Isolamento",
+      "musculos_secundarios": "Glúteos",
+      "video_url": "https://www.youtube.com/watch?v=okkZNCzHD4U",
+      "nome": "hiperextensão no chão",
+      "tipo": "Isolado",
+      "nivel_minimo": "Iniciante",
+      "createdAt": {
+        "_seconds": 1766547891,
+        "_nanoseconds": 793000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "YMyiHRfeGGOWmqwXHoWo",
+      "dicas": "Controlar a descida ao máximo, Quadril estável",
+      "nivel_minimo": "Avançado",
+      "nome": "FLEXÃO NÓRDICA",
+      "video_url": "https://www.youtube.com/watch?v=cCQHVlum0ys",
+      "musculo_principal": "Posterior",
+      "tipo": "Isolado",
+      "padrao_movimento": "Isolamento",
+      "musculos_secundarios": "Glúteos",
+      "equipamentos": "Nenhum",
+      "createdAt": {
+        "_seconds": 1766547879,
+        "_nanoseconds": 664000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "dOGGvt7dFEIZgVCCgc1E",
+      "tipo": "Composto",
+      "padrao_movimento": "Puxar Vertical",
+      "equipamentos": "Barra Fixa",
+      "nivel_minimo": "Avançado",
+      "nome": "barra pronada aberta",
+      "dicas": "Pegada bem larga, Foco no V das costas",
+      "musculos_secundarios": "Ombros",
+      "musculo_principal": "Costas",
+      "video_url": "https://www.youtube.com/watch?v=iSm-5gmD1J0",
+      "createdAt": {
+        "_seconds": 1766547890,
+        "_nanoseconds": 212000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "imWF3LpcBWcr97m2munL",
+      "musculos_secundarios": "Biceps, Antebraço",
+      "equipamentos": "Barra Fixa",
+      "padrao_movimento": "Puxar Vertical",
+      "nome": "barra pronada fechada",
+      "video_url": "https://www.youtube.com/watch?v=_CDQPKpykyQ",
+      "nivel_minimo": "Intermediário",
+      "dicas": "Mãos próximas, Cotovelos para frente",
+      "tipo": "Composto",
+      "musculo_principal": "Costas",
+      "createdAt": {
+        "_seconds": 1766547888,
+        "_nanoseconds": 903000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "ip4kwgweBkFVlrge4HDW",
+      "video_url": "https://www.youtube.com/watch?v=Uuevqg0q3qE",
+      "equipamentos": "Nenhum",
+      "nome": "flexão militar",
+      "padrao_movimento": "Empurrar Horizontal",
+      "musculo_principal": "Peito",
+      "dicas": "Cotovelos raspando costelas, Foco no triceps",
+      "nivel_minimo": "Intermediário",
+      "musculos_secundarios": "Triceps",
+      "tipo": "Composto",
+      "createdAt": {
+        "_seconds": 1766547887,
+        "_nanoseconds": 425000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "joeONGnMVC7GnQV6af1o",
+      "nivel_minimo": "Iniciante",
+      "musculo_principal": "Ombros",
+      "equipamentos": "Halteres",
+      "nome": "elevação lateral",
+      "padrao_movimento": "Isolamento",
+      "musculos_secundarios": "",
+      "tipo": "Isolado",
+      "video_url": "https://www.youtube.com/watch?v=ZYcK9KU-Eck",
+      "dicas": "Braços levemente à frente, Não subir acima do ombro",
+      "createdAt": {
+        "_seconds": 1766547894,
+        "_nanoseconds": 405000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "kVH7dxyeViYxs47hTVsC",
+      "tipo": "Composto",
+      "video_url": "https://www.youtube.com/watch?v=MivNNy0hdNk",
+      "equipamentos": "Halteres / Banco",
+      "musculos_secundarios": "Glúteos",
+      "musculo_principal": "Quadríceps",
+      "nome": "AFUNDO BÚLGARO",
+      "nivel_minimo": "Intermediário",
+      "dicas": "Peito aberto, Joelho não passa muito o pé, Equilíbrio",
+      "padrao_movimento": "Agachamento",
+      "createdAt": {
+        "_seconds": 1766547881,
+        "_nanoseconds": 846000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "nyegeTZj6Zyq5wUa5x6d",
+      "equipamentos": "Máquina",
+      "padrao_movimento": "Puxar Horizontal",
+      "musculo_principal": "Costas",
+      "nivel_minimo": "Iniciante",
+      "musculos_secundarios": "Biceps, Trapézio",
+      "nome": "REMADA",
+      "video_url": "https://www.youtube.com/watch?v=2mW0COBJwuY",
+      "tipo": "Composto",
+      "dicas": "Puxar cotovelos para trás, Contrair costas",
+      "createdAt": {
+        "_seconds": 1766547883,
+        "_nanoseconds": 479000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "oHK4F4m66dygo7YSVOZ7",
+      "equipamentos": "Barra Fixa",
+      "musculo_principal": "Biceps",
+      "dicas": "Foco total no biceps, Queixo acima da barra",
+      "nivel_minimo": "Intermediário",
+      "padrao_movimento": "Puxar Vertical",
+      "nome": "barra supinada fechada",
+      "tipo": "Composto",
+      "video_url": "https://www.youtube.com/watch?v=Nc_reEWAJdU",
+      "musculos_secundarios": "Costas",
+      "createdAt": {
+        "_seconds": 1766547890,
+        "_nanoseconds": 873000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "qMHK0CtpG7av5wB6WBYQ",
+      "nome": "ENCOLHIMENTO",
+      "nivel_minimo": "Iniciante",
+      "equipamentos": "Halteres",
+      "musculo_principal": "Trapézio",
+      "video_url": "https://www.youtube.com/watch?v=-D_3TEHhSJQ",
+      "dicas": "Elevar ombros para orelhas, Sem girar, Pausa no topo",
+      "musculos_secundarios": "Ombros",
+      "padrao_movimento": "Puxar Vertical",
+      "tipo": "Isolado",
+      "createdAt": {
+        "_seconds": 1766547878,
+        "_nanoseconds": 450000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "qtyvJTxQcvTWCq5FQ5Zi",
+      "tipo": "Composto",
+      "nome": "STEP UP",
+      "equipamentos": "Caixa / Banco",
+      "dicas": "Força na perna de cima, Não dar impulso com a de baixo",
+      "musculos_secundarios": "Glúteos",
+      "video_url": "https://www.youtube.com/watch?v=-TzGk9jvaw0",
+      "nivel_minimo": "Iniciante",
+      "padrao_movimento": "Agachamento",
+      "musculo_principal": "Quadríceps",
+      "createdAt": {
+        "_seconds": 1766547882,
+        "_nanoseconds": 540000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "rfLvjgkA21W4BO8ddsx9",
+      "nivel_minimo": "Intermediário",
+      "equipamentos": "Paralelas",
+      "video_url": "https://www.youtube.com/watch?v=ziHDQEF5zAk",
+      "tipo": "Composto",
+      "musculo_principal": "Triceps",
+      "nome": "DIPS",
+      "dicas": "Foco no triceps, Cotovelos para trás",
+      "padrao_movimento": "Empurrar Vertical",
+      "musculos_secundarios": "Ombros",
+      "createdAt": {
+        "_seconds": 1766547885,
+        "_nanoseconds": 619000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "tf2JWLibnbIt8oSGtnoC",
+      "equipamentos": "Barra / Halter",
+      "nivel_minimo": "Iniciante",
+      "dicas": "Peso no calcanhar, Joelhos para fora, Descer fundo",
+      "padrao_movimento": "Agachamento",
+      "musculo_principal": "Quadríceps",
+      "video_url": "https://www.youtube.com/watch?v=trSbYfnvZgM",
+      "nome": "AGACHAMENTO LIVRE",
+      "musculos_secundarios": "Glúteos, Adutores",
+      "tipo": "Composto",
+      "createdAt": {
+        "_seconds": 1766547883,
+        "_nanoseconds": 996000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "vb7vJTJvJBtfmbnT2FPY",
+      "nivel_minimo": "Avançado",
+      "dicas": "Pegada larga palmas para você, Ativação dorsal",
+      "video_url": "https://www.youtube.com/watch?v=Zgeoqwj_Pvc",
+      "musculos_secundarios": "Biceps",
+      "nome": "barra supinada aberta",
+      "musculo_principal": "Costas",
+      "padrao_movimento": "Puxar Vertical",
+      "equipamentos": "Barra Fixa",
+      "tipo": "Composto",
+      "createdAt": {
+        "_seconds": 1766547888,
+        "_nanoseconds": 214000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "wY1NHX1qAhk9q95tqsJS",
+      "equipamentos": "Barra Olímpica",
+      "musculos_secundarios": "Triceps, Abdomen",
+      "video_url": "https://www.youtube.com/watch?v=Oz5N8Ll2WB4",
+      "dicas": "Corpo rígido, Barra rente ao rosto, Travar no topo",
+      "tipo": "Composto",
+      "padrao_movimento": "Empurrar Vertical",
+      "nome": "DESENVOLVIMENTO MILITAR",
+      "nivel_minimo": "Intermediário",
+      "musculo_principal": "Ombros",
+      "createdAt": {
+        "_seconds": 1766547884,
+        "_nanoseconds": 384000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "xZjpVU7BjHI9qo2WyD6A",
+      "dicas": "Quadril alto, Cabeça vai à frente das mãos",
+      "nivel_minimo": "Intermediário",
+      "padrao_movimento": "Empurrar Vertical",
+      "musculos_secundarios": "Triceps",
+      "nome": "flexão pike",
+      "tipo": "Composto",
+      "musculo_principal": "Ombros",
+      "video_url": "https://www.youtube.com/watch?v=yaNuYnPVPTs",
+      "equipamentos": "Nenhum",
+      "createdAt": {
+        "_seconds": 1766547892,
+        "_nanoseconds": 794000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "xct943qZbUTGetZoGmsK",
+      "nome": "agachamento",
+      "nivel_minimo": "Iniciante",
+      "video_url": "https://www.youtube.com/watch?v=x5mieqUSUvw",
+      "tipo": "Composto",
+      "equipamentos": "Nenhum",
+      "musculos_secundarios": "Glúteos",
+      "padrao_movimento": "Agachamento",
+      "dicas": "Coluna neutra, Abdômen ativo, Pés largura ombros",
+      "musculo_principal": "Quadríceps",
+      "createdAt": {
+        "_seconds": 1766547885,
+        "_nanoseconds": 294000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  },
+  {
+    "original_data": {
+      "id": "yVYtIdqUdB0MbrUizepX",
+      "dicas": "Ponta do pé para cima, Fortalece canela",
+      "musculo_principal": "Panturrilha",
+      "video_url": "https://www.youtube.com/watch?v=M8wd1-19_k8",
+      "padrao_movimento": "Isolamento",
+      "nivel_minimo": "Iniciante",
+      "tipo": "Isolado",
+      "equipamentos": "Parede",
+      "musculos_secundarios": "",
+      "nome": "dorso flexão",
+      "createdAt": {
+        "_seconds": 1766547896,
+        "_nanoseconds": 739000000
+      }
+    },
+    "transcript": "",
+    "fetch_status": "success"
+  }
+]

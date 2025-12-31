@@ -1,0 +1,380 @@
+[
+    {
+        "id": "0pHNEu91BfkT15By26A8",
+        "nome": "FLEXÃO PLANTAR",
+        "musculo_principal": "Panturrilha",
+        "musculos_secundarios": "Sóleo",
+        "padrao_movimento": "Isolamento",
+        "tipo": "Isolado",
+        "dicas": "Amplitude máxima no tornozelo. Segure 1s no topo e 1s na base. Joelhos estendidos."
+    },
+    {
+        "id": "1tfOtDlTzIvvPhQSuS1I",
+        "nome": "remada supinada aberta",
+        "musculo_principal": "Costas",
+        "musculos_secundarios": "Bíceps, Deltoide Posterior",
+        "padrao_movimento": "Puxar Horizontal",
+        "tipo": "Composto",
+        "dicas": "Tronco inclinado a 45º. Puxe a barra em direção ao quadril. Mantenha os cotovelos próximos ao corpo."
+    },
+    {
+        "id": "1z6xPWXsXJJ8uWg6TfVG",
+        "nome": "flexão diamante",
+        "musculo_principal": "Tríceps",
+        "musculos_secundarios": "Peitoral, Deltoide Anterior",
+        "padrao_movimento": "Empurrar Horizontal",
+        "tipo": "Composto",
+        "dicas": "Mãos unidas formando um losango. Cotovelos raspando as costelas na descida. Amplitude completa."
+    },
+    {
+        "id": "3Hiu5Nq6kgVOJ0FEncJi",
+        "nome": "flexora com slider",
+        "musculo_principal": "Posterior de Coxa",
+        "musculos_secundarios": "Glúteos, Core",
+        "padrao_movimento": "Dominância de Quadril",
+        "tipo": "Isolado",
+        "dicas": "Mantenha o quadril elevado durante todo o movimento. Puxe os calcanhares em direção ao glúteo. Controle a volta."
+    },
+    {
+        "id": "4cgdOALdBy4a6WtW6l1Y",
+        "nome": "FLEXÃO",
+        "musculo_principal": "Peitoral",
+        "musculos_secundarios": "Tríceps, Deltoide Anterior",
+        "padrao_movimento": "Empurrar Horizontal",
+        "tipo": "Composto",
+        "dicas": "Corpo em prancha rígida. Cotovelos a 45 graus do tronco. Toque o peito no chão se possível."
+    },
+    {
+        "id": "8fevrytUxt1q9ZuhcUzw",
+        "nome": "BARRA FIXA",
+        "musculo_principal": "Costas",
+        "musculos_secundarios": "Bíceps, Antebraço",
+        "padrao_movimento": "Puxar Vertical",
+        "tipo": "Composto",
+        "dicas": "Inicie o movimento deprimindo as escápulas. Leve o peito em direção à barra. Controle a descida."
+    },
+    {
+        "id": "8yZfH92KlI2dkZHzzOo3",
+        "nome": "HIPEREXTENSÃO",
+        "musculo_principal": "Lombar",
+        "musculos_secundarios": "Glúteos, Posterior de Coxa",
+        "padrao_movimento": "Dominância de Quadril",
+        "tipo": "Isolado",
+        "dicas": "Mantenha a coluna neutra (não hiperextenda demais). Contraia glúteos no topo. Desça controlando."
+    },
+    {
+        "id": "AFEbZz1HKrmemXzh4DZg",
+        "nome": "LEVANTAMENTO TERRA",
+        "musculo_principal": "Posterior de Coxa",
+        "musculos_secundarios": "Glúteos, Lombar, Trapézio",
+        "padrao_movimento": "Dominância de Quadril",
+        "tipo": "Composto",
+        "dicas": "Barra sempre colada na perna. Peito aberto e costas travadas. Empurre o chão com os pés."
+    },
+    {
+        "id": "Am5mrEnK0GLu1EbLwGwn",
+        "nome": "cadeira abdutora",
+        "musculo_principal": "Glúteos",
+        "musculos_secundarios": "Abdutores",
+        "padrao_movimento": "Isolamento",
+        "tipo": "Isolado",
+        "dicas": "Tronco firme no encosto. Faça uma pausa de 1s na abertura máxima. Controle a fase de fechamento."
+    },
+    {
+        "id": "GMWP4KrkN6MGT3CKFina",
+        "nome": "pistol squat",
+        "musculo_principal": "Quadríceps",
+        "musculos_secundarios": "Glúteos, Core",
+        "padrao_movimento": "Agachamento Unilateral",
+        "tipo": "Composto",
+        "dicas": "Mantenha o calcanhar todo apoiado. Use os braços para equilíbrio. Controle a descida lentamente."
+    },
+    {
+        "id": "IVXrp3PK8lG9lQeH1I1j",
+        "nome": "step up",
+        "musculo_principal": "Quadríceps",
+        "musculos_secundarios": "Glúteos",
+        "padrao_movimento": "Agachamento Unilateral",
+        "tipo": "Composto",
+        "dicas": "Concentre a força na perna de cima. Evite impulsionar com a perna de baixo. Mantenha o tronco levemente inclinado à frente."
+    },
+    {
+        "id": "JHI5cSL8QjP82oDcE1RM",
+        "nome": "hiperextensão",
+        "musculo_principal": "Lombar",
+        "musculos_secundarios": "Glúteos",
+        "padrao_movimento": "Dominância de Quadril",
+        "tipo": "Isolado",
+        "dicas": "Ajuste o banco na linha do quadril. Desça com as costas retas. Suba até alinhar o corpo."
+    },
+    {
+        "id": "K7sU1yI7spI6E58wqB12",
+        "nome": "remada pronada aberta",
+        "musculo_principal": "Costas",
+        "musculos_secundarios": "Deltoide Posterior, Trapézio",
+        "padrao_movimento": "Puxar Horizontal",
+        "tipo": "Composto",
+        "dicas": "Cotovelos abertos na linha do ombro. Foco na retração escapular. Mantenha a lombar estável."
+    },
+    {
+        "id": "MBqMYLeDwNL1TCcGE8My",
+        "nome": "flexão aberta",
+        "musculo_principal": "Peitoral",
+        "musculos_secundarios": "Deltoide Anterior",
+        "padrao_movimento": "Empurrar Horizontal",
+        "tipo": "Composto",
+        "dicas": "Mãos mais afastadas que os ombros. Sinta o alongamento do peitoral na descida. Não deixe o quadril cair."
+    },
+    {
+        "id": "NnWR5Fk2I0lpIZzLbqpz",
+        "nome": "DIPS",
+        "musculo_principal": "Tríceps",
+        "musculos_secundarios": "Peitoral Inferior, Deltoide Anterior",
+        "padrao_movimento": "Empurrar Vertical",
+        "tipo": "Composto",
+        "dicas": "Mantenha o corpo vertical para foco em tríceps. Desça até 90 graus nos cotovelos. Empurre forte até estender."
+    },
+    {
+        "id": "O2DWQM2LDpV8Ohoo8ggu",
+        "nome": "flexão nórdica",
+        "musculo_principal": "Posterior de Coxa",
+        "musculos_secundarios": "Glúteos, Lombar",
+        "padrao_movimento": "Isolamento",
+        "tipo": "Isolado",
+        "dicas": "Segure a descida o máximo que conseguir (fase excêntrica). Use as mãos para subir (fase concêntrica). Mantenha o quadril estendido."
+    },
+    {
+        "id": "OZ07BC2ClewFKOVRPmjs",
+        "nome": "remada pronada fechada",
+        "musculo_principal": "Costas",
+        "musculos_secundarios": "Bíceps",
+        "padrao_movimento": "Puxar Horizontal",
+        "tipo": "Composto",
+        "dicas": "Puxe a barra em direção ao abdômen. Cotovelos passando rente ao tronco. Alongue bem na descida."
+    },
+    {
+        "id": "RHe7t6s6UxSDtVp5RjV4",
+        "nome": "afundo búlgaro",
+        "musculo_principal": "Quadríceps",
+        "musculos_secundarios": "Glúteos",
+        "padrao_movimento": "Agachamento Unilateral",
+        "tipo": "Composto",
+        "dicas": "Tronco vertical para foco em quadríceps. Desça até o joelho de trás raspar no chão. Mantenha o joelho da frente estável."
+    },
+    {
+        "id": "RIFZCXJ6fywPfIylXeoF",
+        "nome": "mergulho no banco",
+        "musculo_principal": "Tríceps",
+        "musculos_secundarios": "Deltoide Anterior",
+        "padrao_movimento": "Empurrar Vertical",
+        "tipo": "Composto",
+        "dicas": "Mantenha as costas próximas ao banco. Cotovelos apontando para trás, não para os lados. Desça controlado."
+    },
+    {
+        "id": "SE7PSyNN4FMLBhvDitBQ",
+        "nome": "cadeira flexora pendurado",
+        "musculo_principal": "Posterior de Coxa",
+        "musculos_secundarios": "Panturrilha",
+        "padrao_movimento": "Isolamento",
+        "tipo": "Isolado",
+        "dicas": "Ajuste o eixo da máquina com seu joelho. Contraia forte puxando para baixo. Não tire o quadril do banco."
+    },
+    {
+        "id": "TgjsybKit8XpCPlWXMco",
+        "nome": "ELEVAÇÃO DE QUADRIL",
+        "musculo_principal": "Glúteos",
+        "musculos_secundarios": "Posterior de Coxa",
+        "padrao_movimento": "Dominância de Quadril",
+        "tipo": "Isolado",
+        "dicas": "Apoie as escápulas no banco. Contraia os glúteos no topo por 2 segundos. Mantenha o queixo perto do peito."
+    },
+    {
+        "id": "USwCIpe6vR1IA7V6E7k1",
+        "nome": "flexão plantar",
+        "musculo_principal": "Panturrilha",
+        "musculos_secundarios": "",
+        "padrao_movimento": "Isolamento",
+        "tipo": "Isolado",
+        "dicas": "Use um degrau para amplitude total. Alongue bem o calcanhar para baixo. Suba o máximo possível."
+    },
+    {
+        "id": "VXo1EOas2ud4EBvvkJvf",
+        "nome": "mesa flexora pendurado",
+        "musculo_principal": "Posterior de Coxa",
+        "musculos_secundarios": "Glúteos",
+        "padrao_movimento": "Isolamento",
+        "tipo": "Isolado",
+        "dicas": "Quadril colado no banco o tempo todo. Puxe o calcanhar até o glúteo. Controle a volta sem deixar o peso bater."
+    },
+    {
+        "id": "WBy6MbxLCsgFifSSvL8y",
+        "nome": "elevação de quadril",
+        "musculo_principal": "Glúteos",
+        "musculos_secundarios": "Posterior de Coxa",
+        "padrao_movimento": "Dominância de Quadril",
+        "tipo": "Isolado",
+        "dicas": "Pés na largura dos ombros. Empurre o chão com o calcanhar. Contraia o glúteo no topo."
+    },
+    {
+        "id": "WHhgJJwRl26gem3LzfKl",
+        "nome": "hiperextensão no chão",
+        "musculo_principal": "Lombar",
+        "musculos_secundarios": "Glúteos",
+        "padrao_movimento": "Isolamento",
+        "tipo": "Isolado",
+        "dicas": "Tire o peito do chão usando a força da lombar. Olhe para baixo para não forçar o pescoço. Segure 1s no topo."
+    },
+    {
+        "id": "YMyiHRfeGGOWmqwXHoWo",
+        "nome": "FLEXÃO NÓRDICA",
+        "musculo_principal": "Posterior de Coxa",
+        "musculos_secundarios": "Glúteos",
+        "padrao_movimento": "Isolamento",
+        "tipo": "Isolado",
+        "dicas": "Controle a descida o máximo possível. Mantenha o corpo reto (quadril estendido). Use as mãos para voltar."
+    },
+    {
+        "id": "dOGGvt7dFEIZgVCCgc1E",
+        "nome": "barra pronada aberta",
+        "musculo_principal": "Costas",
+        "musculos_secundarios": "Bíceps",
+        "padrao_movimento": "Puxar Vertical",
+        "tipo": "Composto",
+        "dicas": "Pegada mais larga que os ombros. Imagine puxar os cotovelos para baixo. Mantenha o peito estufado."
+    },
+    {
+        "id": "imWF3LpcBWcr97m2munL",
+        "nome": "barra pronada fechada",
+        "musculo_principal": "Costas",
+        "musculos_secundarios": "Bíceps, Antebraço",
+        "padrao_movimento": "Puxar Vertical",
+        "tipo": "Composto",
+        "dicas": "Mãos na largura dos ombros. Foque no latíssimo do dorso. Evite balançar o corpo."
+    },
+    {
+        "id": "ip4kwgweBkFVlrge4HDW",
+        "nome": "flexão militar",
+        "musculo_principal": "Tríceps",
+        "musculos_secundarios": "Peitoral, Deltoide Anterior",
+        "padrao_movimento": "Empurrar Horizontal",
+        "tipo": "Composto",
+        "dicas": "Mãos abaixo dos ombros. Cotovelos raspando as costelas. Corpo travado em prancha."
+    },
+    {
+        "id": "joeONGnMVC7GnQV6af1o",
+        "nome": "elevação lateral",
+        "musculo_principal": "Ombros",
+        "musculos_secundarios": "Trapézio",
+        "padrao_movimento": "Isolamento",
+        "tipo": "Isolado",
+        "dicas": "Levante os alteres até a altura dos ombros. Cotovelos levemente flexionados. Não use impulso de tronco."
+    },
+    {
+        "id": "kVH7dxyeViYxs47hTVsC",
+        "nome": "AFUNDO BÚLGARO",
+        "musculo_principal": "Quadríceps",
+        "musculos_secundarios": "Glúteos",
+        "padrao_movimento": "Agachamento Unilateral",
+        "tipo": "Composto",
+        "dicas": "Pé de trás apoiado no banco. Desça verticalmente. Mantenha o joelho da frente alinhado com o pé."
+    },
+    {
+        "id": "nyegeTZj6Zyq5wUa5x6d",
+        "nome": "REMADA",
+        "musculo_principal": "Costas",
+        "musculos_secundarios": "Bíceps",
+        "padrao_movimento": "Puxar Horizontal",
+        "tipo": "Composto",
+        "dicas": "Estabilize o tronco. Puxe a carga em direção ao quadril. Contraia as escápulas no final."
+    },
+    {
+        "id": "oHK4F4m66dygo7YSVOZ7",
+        "nome": "barra supinada fechada",
+        "musculo_principal": "Costas",
+        "musculos_secundarios": "Bíceps",
+        "padrao_movimento": "Puxar Vertical",
+        "tipo": "Composto",
+        "dicas": "Palmas voltadas para você (supinada). Puxe até o queixo passar da barra. Ótimo para foco em bíceps também."
+    },
+    {
+        "id": "qMHK0CtpG7av5wB6WBYQ",
+        "nome": "ENCOLHIMENTO",
+        "musculo_principal": "Trapézio",
+        "musculos_secundarios": "",
+        "padrao_movimento": "Isolamento",
+        "tipo": "Isolado",
+        "dicas": "Eleve os ombros em direção às orelhas. Segure 1-2s no topo. Não gire os ombros, apenas suba e desça."
+    },
+    {
+        "id": "qtyvJTxQcvTWCq5FQ5Zi",
+        "nome": "STEP UP",
+        "musculo_principal": "Quadríceps",
+        "musculos_secundarios": "Glúteos",
+        "padrao_movimento": "Agachamento Unilateral",
+        "tipo": "Composto",
+        "dicas": "Pise firme na caixa. Suba usando força apenas da perna apoiada. Controle a descida."
+    },
+    {
+        "id": "rfLvjgkA21W4BO8ddsx9",
+        "nome": "DIPS",
+        "musculo_principal": "Tríceps",
+        "musculos_secundarios": "Peitoral",
+        "padrao_movimento": "Empurrar Vertical",
+        "tipo": "Composto",
+        "dicas": "Corpo ereto. Desça até dobrar os cotovelos a 90 graus. Evite abrir os cotovelos para os lados."
+    },
+    {
+        "id": "tf2JWLibnbIt8oSGtnoC",
+        "nome": "AGACHAMENTO LIVRE",
+        "musculo_principal": "Quadríceps",
+        "musculos_secundarios": "Glúteos, Core",
+        "padrao_movimento": "Agachamento",
+        "tipo": "Composto",
+        "dicas": "Pés na largura dos ombros. Inicie o movimento jogando o quadril para trás. Mantenha os joelhos para fora."
+    },
+    {
+        "id": "vb7vJTJvJBtfmbnT2FPY",
+        "nome": "barra supinada aberta",
+        "musculo_principal": "Costas",
+        "musculos_secundarios": "Bíceps",
+        "padrao_movimento": "Puxar Vertical",
+        "tipo": "Composto",
+        "dicas": "Palmas para você, mas pegada mais larga. Foco em adução de ombros. Controle a descida."
+    },
+    {
+        "id": "wY1NHX1qAhk9q95tqsJS",
+        "nome": "DESENVOLVIMENTO MILITAR",
+        "musculo_principal": "Ombros",
+        "musculos_secundarios": "Tríceps, Core",
+        "padrao_movimento": "Empurrar Vertical",
+        "tipo": "Composto",
+        "dicas": "Core travado, glúteos contraídos. Empurre a barra acima da cabeça até estender os braços. Não arqueie a lombar."
+    },
+    {
+        "id": "xZjpVU7BjHI9qo2WyD6A",
+        "nome": "flexão pike",
+        "musculo_principal": "Ombros",
+        "musculos_secundarios": "Tríceps",
+        "padrao_movimento": "Empurrar Vertical",
+        "tipo": "Composto",
+        "dicas": "Corpo em formato de V invertido. Desça a cabeça em direção ao chão um pouco à frente das mãos. Empurre de volta."
+    },
+    {
+        "id": "xct943qZbUTGetZoGmsK",
+        "nome": "agachamento",
+        "musculo_principal": "Quadríceps",
+        "musculos_secundarios": "Glúteos",
+        "padrao_movimento": "Agachamento",
+        "tipo": "Composto",
+        "dicas": "Mantenha o peito estufado e olhar à frente. Desça até a coxa ficar paralela ao chão. Peso nos calcanhares."
+    },
+    {
+        "id": "yVYtIdqUdB0MbrUizepX",
+        "nome": "dorso flexão",
+        "musculo_principal": "Tibial Anterior",
+        "musculos_secundarios": "",
+        "padrao_movimento": "Isolamento",
+        "tipo": "Isolado",
+        "dicas": "Apoie as costas na parede. Levante a ponta dos pés o máximo possível. Controle a descida."
+    }
+]
