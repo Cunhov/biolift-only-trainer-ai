@@ -10,7 +10,7 @@ import AdminPanel from './components/AdminPanel';
 import { UserInput, AgentLog, SavedWorkout, AppView } from './types';
 import { auth, workouts, exercises } from './services/api';
 import { poe } from './services/poe';
-import { getWorkoutSystemPrompt, getRefineSystemPrompt } from './utils/prompts';
+import { getAgent1StrategyPrompt, getAgent2CuratorPrompt, getAgent3PrescriberPrompt, getAgent4FinalizerPrompt, getRefineSystemPrompt } from './utils/prompts';
 
 
 
@@ -98,29 +98,121 @@ const App: React.FC = () => {
     setGeneratedContent('');
 
     try {
-      setLogs([{ agent: 'BioLift AI', message: 'Analisando seu perfil...', status: 'processing' }]);
-
-      // 1. Fetch exercises to build prompt
+      // 0. Fetch exercises and build maps
+      setLogs([{ agent: '🔄 Sistema', message: 'Carregando base de exercícios...', status: 'processing' }]);
       const exerciseData = await exercises.getAll();
-      const exerciseNames = exerciseData.map(e => ` - ${(e as any).nome} (URL: ${(e as any).video_url})`);
+      const exerciseList = exerciseData.map(e => ` - ${(e as any).nome}`);
+      const videoMap: Record<string, string> = {};
+      exerciseData.forEach(e => {
+        videoMap[(e as any).nome] = (e as any).video_url || '';
+      });
 
-      setLogs(prev => [...prev, { agent: 'BioLift AI', message: 'Estruturando plano de treino...', status: 'processing' }]);
+      // Build user context message (used by all agents)
+      const userContext = `
+Objetivo: ${data.objetivo}
+Nível: ${data.nivel}
+Frequência: ${data.dias.length}x por semana (${data.dias.join(', ')})
+Divisão Preferida: ${data.split}
+Equipamentos: ${data.equipamentos.length > 0 ? data.equipamentos.join(', ') : 'Nenhum / Peso corporal'}
+Duração por Sessão: ${data.duracao_por_sessao} min
+Lesões/Limitações: ${data.lesoes || 'Nenhuma'}
+      `.trim();
 
-      const systemPrompt = getWorkoutSystemPrompt(exerciseNames);
-      const userMessage = `
-        Objetivo: ${data.objetivo}
-        Nível: ${data.nivel}
-        Frequência: ${data.dias.length}x por semana (${data.dias.join(', ')})
-        Divisão: ${data.split}
-        Equipamentos: ${data.equipamentos.join(', ')}
-        Duração: ${data.duracao_por_sessao} min
-        Lesões: ${data.lesoes || 'Nenhuma'}
-      `;
+      // Helper to call an agent and wait for JSON response
+      const callAgentForJSON = (systemPrompt: string, userMessage: string): Promise<any> => {
+        return new Promise((resolve, reject) => {
+          let fullResponse = '';
+          poe.chat({
+            messages: [
+              { role: 'system', content: systemPrompt },
+              { role: 'user', content: userMessage }
+            ],
+            onContent: (content) => {
+              fullResponse += content;
+            },
+            onError: (err) => reject(new Error(err)),
+            onDone: () => {
+              try {
+                // Clean up response (remove markdown code blocks if present)
+                let cleaned = fullResponse.trim();
+                if (cleaned.startsWith('```json')) cleaned = cleaned.slice(7);
+                if (cleaned.startsWith('```')) cleaned = cleaned.slice(3);
+                if (cleaned.endsWith('```')) cleaned = cleaned.slice(0, -3);
+                const parsed = JSON.parse(cleaned.trim());
+                resolve(parsed);
+              } catch (e) {
+                console.error('JSON Parse Error:', e, fullResponse);
+                reject(new Error('Falha ao processar resposta do agente.'));
+              }
+            }
+          });
+        });
+      };
+
+      // =====================================================================
+      // AGENT 1: Strategy Analyst
+      // =====================================================================
+      setLogs(prev => [...prev, { agent: '🧠 Agente 1', message: 'Analisando perfil e definindo estratégia...', status: 'processing' }]);
+      const agent1Response = await callAgentForJSON(
+        getAgent1StrategyPrompt(),
+        userContext
+      );
+      setLogs(prev => prev.map((l, i) => i === prev.length - 1 ? { ...l, status: 'success' as const, message: 'Estratégia definida!' } : l));
+
+      // =====================================================================
+      // AGENT 2: Exercise Curator
+      // =====================================================================
+      setLogs(prev => [...prev, { agent: '📋 Agente 2', message: 'Selecionando exercícios...', status: 'processing' }]);
+      const agent2Input = `
+ESTRATÉGIA RECEBIDA DO AGENTE 1:
+${JSON.stringify(agent1Response, null, 2)}
+
+DADOS DO USUÁRIO:
+${userContext}
+      `.trim();
+      const agent2Response = await callAgentForJSON(
+        getAgent2CuratorPrompt(exerciseList),
+        agent2Input
+      );
+      setLogs(prev => prev.map((l, i) => i === prev.length - 1 ? { ...l, status: 'success' as const, message: 'Exercícios selecionados!' } : l));
+
+      // =====================================================================
+      // AGENT 3: Technical Prescriber
+      // =====================================================================
+      setLogs(prev => [...prev, { agent: '🔬 Agente 3', message: 'Prescrevendo detalhes técnicos...', status: 'processing' }]);
+      const agent3Input = `
+EXERCÍCIOS SELECIONADOS PELO AGENTE 2:
+${JSON.stringify(agent2Response, null, 2)}
+
+ESTRATÉGIA DO AGENTE 1:
+${JSON.stringify(agent1Response, null, 2)}
+
+DADOS DO USUÁRIO:
+${userContext}
+      `.trim();
+      const agent3Response = await callAgentForJSON(
+        getAgent3PrescriberPrompt(),
+        agent3Input
+      );
+      setLogs(prev => prev.map((l, i) => i === prev.length - 1 ? { ...l, status: 'success' as const, message: 'Prescrição técnica concluída!' } : l));
+
+      // =====================================================================
+      // AGENT 4: Output Finalizer (returns Markdown)
+      // =====================================================================
+      setLogs(prev => [...prev, { agent: '✨ Agente 4', message: 'Formatando plano final...', status: 'processing' }]);
 
       await poe.chat({
         messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userMessage }
+          { role: 'system', content: getAgent4FinalizerPrompt(videoMap) },
+          {
+            role: 'user', content: `
+PRESCRIÇÃO TÉCNICA DO AGENTE 3:
+${JSON.stringify(agent3Response, null, 2)}
+
+DADOS DO USUÁRIO:
+${userContext}
+          `.trim()
+          }
         ],
         onContent: (content) => {
           setGeneratedContent(prev => prev + content);
@@ -129,7 +221,7 @@ const App: React.FC = () => {
           setErrorMsg(err);
         },
         onDone: async (fullContent) => {
-          setLogs(prev => [...prev, { agent: 'BioLift AI', message: 'Treino gerado com sucesso!', status: 'success' }]);
+          setLogs(prev => prev.map((l, i) => i === prev.length - 1 ? { ...l, status: 'success' as const, message: 'Plano finalizado!' } : l));
 
           // Save to Firestore
           const newWorkout = await workouts.create({
@@ -144,7 +236,8 @@ const App: React.FC = () => {
         }
       });
     } catch (error: any) {
-      setErrorMsg(error.message || 'Erro desconhecido');
+      console.error('Multi-agent error:', error);
+      setErrorMsg(error.message || 'Erro desconhecido durante a geração.');
     }
   };
 
