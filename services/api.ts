@@ -210,7 +210,105 @@ export const exercises = {
     delete: (id: string) => deleteDoc(doc(db, 'exercises', id))
 };
 
-export const ai = {
-    // We'll still need an endpoint for AI generation if it's complex, 
-    // or we can call Gemini SDK directly from frontend if the keys are there.
+
+export const ai = {};
+
+export const users = {
+    checkGenerationLimit: async (userId: string): Promise<{ allowed: boolean; message?: string }> => {
+        // Admins are always allowed
+        if (userId === 'admin') return { allowed: true };
+
+        const userRef = doc(db, 'users', userId);
+        const userSnap = await getDoc(userRef);
+
+        if (!userSnap.exists()) {
+            return { allowed: false, message: 'Usuário não encontrado.' };
+        }
+
+        const userData = userSnap.data();
+        if (userData.isAdmin) return { allowed: true };
+
+        const currentMonth = new Date().toISOString().slice(0, 7); // "YYYY-MM"
+        const lastMonth = userData.usage?.lastGenerationMonth;
+        const count = userData.usage?.generationCount || 0;
+
+        // If it's a new month, allow (counter will be reset on record)
+        if (lastMonth !== currentMonth) {
+            return { allowed: true };
+        }
+
+        // Check limit
+        if (count >= 10) {
+            return { allowed: false, message: 'Você atingiu o limite de 10 treinos gerados neste mês.' };
+        }
+
+        return { allowed: true };
+    },
+
+    recordWorkoutGeneration: async (userId: string) => {
+        if (userId === 'admin') return;
+
+        const userRef = doc(db, 'users', userId);
+        const userSnap = await getDoc(userRef);
+
+        if (!userSnap.exists()) return;
+
+        const userData = userSnap.data();
+        const currentMonth = new Date().toISOString().slice(0, 7);
+        const lastMonth = userData.usage?.lastGenerationMonth;
+        let newCount = userData.usage?.generationCount || 0;
+
+        if (lastMonth !== currentMonth) {
+            newCount = 1; // First of the month
+        } else {
+            newCount++;
+        }
+
+        await updateDoc(userRef, {
+            usage: {
+                lastGenerationMonth: currentMonth,
+                generationCount: newCount
+            }
+        });
+    }
 };
+
+// Start of workouts extension for edit limits
+export const workoutLimits = { // Separated to avoid conflict with existing workouts object if not merging carefully
+    checkEditLimit: async (workoutId: string, userId: string): Promise<{ allowed: boolean; message?: string }> => {
+        if (userId === 'admin') return { allowed: true };
+
+        // We need to fetch the user to check if they are an admin stored in DB
+        // But for optimization, we assume the calling code knows if it's the 'admin' local user.
+        // Let's also check if the DB user is admin.
+        const userRef = doc(db, 'users', userId);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists() && userSnap.data().isAdmin) return { allowed: true };
+
+        const workoutRef = doc(db, 'workouts', workoutId);
+        const workoutSnap = await getDoc(workoutRef);
+
+        if (!workoutSnap.exists()) return { allowed: false, message: 'Treino não encontrado.' };
+
+        const data = workoutSnap.data();
+        if (data.editCount && data.editCount >= 1) {
+            return { allowed: false, message: 'Você já editou este treino uma vez. O limite é de 1 edição por treino.' };
+        }
+
+        return { allowed: true };
+    },
+
+    recordEdit: async (workoutId: string) => {
+        const workoutRef = doc(db, 'workouts', workoutId);
+        const workoutSnap = await getDoc(workoutRef);
+
+        if (!workoutSnap.exists()) return;
+
+        const currentCount = workoutSnap.data().editCount || 0;
+
+        await updateDoc(workoutRef, {
+            editCount: currentCount + 1
+        });
+    }
+};
+
