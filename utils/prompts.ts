@@ -35,6 +35,7 @@ ${exerciseList.join('\n')}
 ### DADOS DO USUÁRIO PARA CONSIDERAR:
 - Objetivo
 - Frequência Semanal
+- Divisão de Treino Preferida do usuário
 - Local de Treino (Academia/Casa)
 - Equipamentos Disponíveis
 - Lesões/Limitações
