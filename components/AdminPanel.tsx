@@ -8,6 +8,11 @@ interface Exercise {
     equipamentos: string[];
     improvise: string[];
     youtube_url: string;
+    // Legacy fields preservation for round-trip safety
+    musculo_principal?: string;
+    musculos_secundarios?: string;
+    video_url?: string;
+    dicas?: string;
 }
 
 interface AdminPanelProps {
@@ -25,11 +30,36 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onBack, onToggleUserMode }) => 
         loadExercises();
     }, []);
 
+    const normalizeExercise = (doc: any): Exercise => {
+        // Handle legacy schema from seed_exercises.ts
+        const groups = doc.grupos_musculares || [doc.musculo_principal, doc.musculos_secundarios].filter(Boolean).join(',').split(',').map((s: string) => s.trim()).filter(Boolean);
+
+        let equip = doc.equipamentos || [];
+        if (typeof equip === 'string') equip = equip.split(',').map((s: string) => s.trim()).filter(Boolean);
+
+        let improv = doc.improvise || [];
+        if (!improv.length && doc.dicas) improv = [doc.dicas];
+
+        return {
+            id: doc.id,
+            nome: doc.nome,
+            grupos_musculares: groups,
+            equipamentos: equip,
+            improvise: improv,
+            youtube_url: doc.youtube_url || doc.video_url || '',
+            // Keep original fields to avoid data loss on save
+            musculo_principal: doc.musculo_principal,
+            musculos_secundarios: doc.musculos_secundarios,
+            video_url: doc.video_url,
+            dicas: doc.dicas
+        };
+    };
+
     const loadExercises = async () => {
         setIsLoading(true);
         try {
             const data = await exercises.getAll();
-            setAllExercises(data as Exercise[]);
+            setAllExercises(data.map(normalizeExercise));
         } catch (error) {
             console.error("Failed to load exercises", error);
         } finally {
@@ -46,10 +76,18 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onBack, onToggleUserMode }) => 
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
+
+            // Maintain backward compatibility with legacy schema if needed, but primary is new schema
+            const payload = {
+                ...currentExercise,
+                video_url: currentExercise.youtube_url, // Sync legacy field
+                // If it was a legacy doc, we might want to update principal/secondary based on groups
+                // For now, we just save the arrays which are the new source of truth
+            };
             if (currentExercise.id) {
-                await exercises.update(currentExercise.id, currentExercise);
+                await exercises.update(currentExercise.id, payload);
             } else {
-                await exercises.add(currentExercise);
+                await exercises.add(payload);
             }
             setIsEditing(false);
             setCurrentExercise({});
