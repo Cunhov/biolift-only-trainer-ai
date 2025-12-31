@@ -133,7 +133,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onBack, onToggleUserMode }) => 
                                         </div>
                                     </div>
                                     <p className="text-xs text-slate-500 mb-2 truncate">
-                                        {ex.grupos_musculares.join(', ')}
+                                        {ex.grupos_musculares?.join(', ')}
                                     </p>
                                     <div className="text-xs text-blue-400 truncate">
                                         {ex.youtube_url}
@@ -174,7 +174,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onBack, onToggleUserMode }) => 
                                         <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Grupos Musculares (separados por vírgula)</label>
                                         <input
                                             type="text"
-                                            value={currentExercise.grupos_musculares?.join(', ')}
+                                            value={currentExercise.grupos_musculares?.join(', ') || ''}
                                             onChange={(e) => setCurrentExercise({ ...currentExercise, grupos_musculares: e.target.value.split(',').map(s => s.trim()) })}
                                             className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-blue-500 outline-none text-sm"
                                             placeholder="Peito, Tríceps"
@@ -184,7 +184,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onBack, onToggleUserMode }) => 
                                         <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Equipamentos (separados por vírgula)</label>
                                         <input
                                             type="text"
-                                            value={currentExercise.equipamentos?.join(', ')}
+                                            value={currentExercise.equipamentos?.join(', ') || ''}
                                             onChange={(e) => setCurrentExercise({ ...currentExercise, equipamentos: e.target.value.split(',').map(s => s.trim()) })}
                                             className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-blue-500 outline-none text-sm"
                                             placeholder="Halteres, Banco"
@@ -207,7 +207,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onBack, onToggleUserMode }) => 
                                 <div>
                                     <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Dicas de Improviso (opcional)</label>
                                     <textarea
-                                        value={currentExercise.improvise?.join('\n')}
+                                        value={currentExercise.improvise?.join('\n') || ''}
                                         onChange={(e) => setCurrentExercise({ ...currentExercise, improvise: e.target.value.split('\n').filter(s => s.trim() !== '') })}
                                         className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all text-sm h-24 resize-none"
                                         placeholder="Use garrafas de água se não tiver halteres..."
