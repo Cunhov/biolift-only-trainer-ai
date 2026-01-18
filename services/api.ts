@@ -28,9 +28,11 @@ export const auth = {
         if (Array.isArray(data) && data.length > 0) {
             const firstItem = data[0];
             if (firstItem.success === 'success') {
-                // Auth successful
-                // We'll use a local session for now since we're using a webhook for validation
-                // In a real app, you might want Firebase Custom Auth or just store data in Firestore
+                // Auth successful on Webhook
+
+                // Authorize in Firebase anonymously to satisfy Security Rules
+                const { signInAnonymously } = await import("firebase/auth");
+                await signInAnonymously(firebaseAuth);
 
                 // Find or create user in Firestore
                 const usersRef = collection(db, 'users');
@@ -53,7 +55,7 @@ export const auth = {
                 }
 
                 localStorage.setItem('user', JSON.stringify(userData));
-                localStorage.setItem('token', 'firebase-session-active'); // Placeholder for compatibility
+                localStorage.setItem('token', 'firebase-session-active');
                 return { data: userData };
             } else {
                 throw new Error('Permissão negada (Webhook)');
@@ -69,6 +71,10 @@ export const auth = {
         const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD;
 
         if (email === adminEmail && password === adminPassword) {
+            // Authorize in Firebase anonymously for Admins too
+            const { signInAnonymously } = await import("firebase/auth");
+            await signInAnonymously(firebaseAuth);
+
             const adminData = { id: 'admin', email, name: 'Administrador', isAdmin: true };
             localStorage.setItem('user', JSON.stringify(adminData));
             localStorage.setItem('token', 'admin-session-active');
